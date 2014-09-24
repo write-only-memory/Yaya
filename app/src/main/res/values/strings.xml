@@ -3,6 +3,7 @@
 
     <string name="app_name">Yaya</string>
     <string name="hello_world">Nothing here yet yo!</string>
+    <string name="intro_text">Welcome to Yaya-desu!</string>
     <string name="action_settings">Settings</string>
     <string name="mal_group_heading">MyAnimeList.net settings</string>
     <string name="mal_username">Your MyAnimeList.net username</string>

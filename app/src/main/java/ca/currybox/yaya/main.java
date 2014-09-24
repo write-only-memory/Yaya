@@ -4,14 +4,25 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 
 public class main extends Activity {
+
+    private TextView status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +47,8 @@ public class main extends Activity {
         } else { //otherwise show Toast. placeholder action for now
             Toast.makeText(getApplicationContext(), "Not first launch", Toast.LENGTH_LONG).show();
         }
+
+
     }
 
 
@@ -61,4 +74,63 @@ public class main extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    public void retrieveList(View v) {
+        status = (TextView) findViewById(R.id.status);
+        Connection task = new Connection();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()); //preferences object
+        String username = prefs.getString("pref_mal_username", ""); //gets the username from preferences
+        String url = "http://myanimelist.net/malappinfo.php?u=" + username + "&status=all&type=anime"; //creates a valid url
+        status.setText("Fetching data...");
+
+        task.execute(new String[]{url});
+
+
+    }
+
+    private class Connection extends AsyncTask<String, Void, String> {
+
+        String[] shows;
+
+        protected String doInBackground(String... urls) {
+
+
+            String xml = "";
+
+            for (String url : urls) {
+
+                XMLParser parser = new XMLParser();
+                xml = parser.getXmlFromUrl(url);
+                //break here for status updates
+                Document doc = parser.getDomElement(xml);
+                NodeList nl = doc.getElementsByTagName("anime");
+                //Log.i("lel","works");
+
+                xml = "";
+                shows = new String[nl.getLength()];
+                for (int i = 0; i < nl.getLength(); i++) {
+                    Element e = (Element) nl.item(i);
+                    xml = xml + parser.getValue(e, "series_title") + "\n";
+                    shows[i] = parser.getValue(e, "series_title");
+                }
+
+
+            }
+
+
+            return xml;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            ArrayAdapter<String> titleAdapter = new ArrayAdapter<String>(main.this, android.R.layout.simple_list_item_1, shows);
+            ListView showList = (ListView) findViewById(R.id.shows);
+            showList.setAdapter(titleAdapter);
+
+            //status.setText(result);
+        }
+    }
+
+
 }

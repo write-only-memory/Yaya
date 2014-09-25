@@ -47,11 +47,7 @@ public class main extends Activity {
         } else { //otherwise show Toast. placeholder action for now
             Toast.makeText(getApplicationContext(), "Not first launch", Toast.LENGTH_LONG).show();
         }
-
-
     }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -76,26 +72,24 @@ public class main extends Activity {
     }
 
     public void retrieveList(View v) {
-        status = (TextView) findViewById(R.id.status);
+        status = (TextView) findViewById(R.id.status); //the status info box
         Connection task = new Connection();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()); //preferences object
         String username = prefs.getString("pref_mal_username", ""); //gets the username from preferences
         String url = "http://myanimelist.net/malappinfo.php?u=" + username + "&status=all&type=anime"; //creates a valid url
         status.setText("Fetching data...");
 
-        task.execute(new String[]{url});
+        task.execute(new String[]{url}); //get data asynchronously
 
 
     }
 
     private class Connection extends AsyncTask<String, Void, String> {
 
-        String[] shows;
+        String[] shows; //array to hold the shows - most likely will be changed to an arrayList
 
         protected String doInBackground(String... urls) {
-
-
-            String xml = "";
+            String xml = ""; //holds the raw data - not really needed. mostly for debug
 
             for (String url : urls) {
 
@@ -103,32 +97,28 @@ public class main extends Activity {
                 xml = parser.getXmlFromUrl(url);
                 //break here for status updates
                 Document doc = parser.getDomElement(xml);
-                NodeList nl = doc.getElementsByTagName("anime");
+                NodeList nl = doc.getElementsByTagName("anime"); //filters/breaks out all the anime items
                 //Log.i("lel","works");
 
-                xml = "";
+                xml = ""; //reset
                 shows = new String[nl.getLength()];
                 for (int i = 0; i < nl.getLength(); i++) {
                     Element e = (Element) nl.item(i);
                     xml = xml + parser.getValue(e, "series_title") + "\n";
-                    shows[i] = parser.getValue(e, "series_title");
+                    shows[i] = parser.getValue(e, "series_title"); //gets the show title per episode
                 }
-
-
             }
-
-
             return xml;
         }
 
         @Override
         protected void onPostExecute(String result) {
 
-            ArrayAdapter<String> titleAdapter = new ArrayAdapter<String>(main.this, android.R.layout.simple_list_item_1, shows);
+            ArrayAdapter<String> titleAdapter = new ArrayAdapter<String>(main.this, R.layout.listview_main, shows); //what it says on the tin - new adapter to fit content
             ListView showList = (ListView) findViewById(R.id.shows);
-            showList.setAdapter(titleAdapter);
+            showList.setAdapter(titleAdapter); //bind the adapter to the listView
 
-            //status.setText(result);
+            status.setText("Waaaai~~"); //te-he~
         }
     }
 

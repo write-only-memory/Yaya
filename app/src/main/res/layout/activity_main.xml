@@ -23,12 +23,14 @@
         android:text="Download latest info from MAL"
         android:layout_marginTop="20dp"
         android:onClick="retrieveList"
+        android:layout_centerHorizontal="true"
         android:id="@+id/retrieve_button" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="lel"
+        android:text="Click the button to get started"
+        android:layout_centerHorizontal="true"
         android:layout_below="@id/retrieve_button"
         android:layout_marginTop="20dp"
         android:id="@+id/status" />
@@ -39,5 +41,7 @@
         android:layout_below="@id/status"
         android:layout_marginTop="20dp"
         android:text="Nothing yet"
+        android:layout_centerHorizontal="true"
+
         android:id="@+id/shows" />
 </RelativeLayout>

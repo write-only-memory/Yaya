@@ -94,7 +94,7 @@ public class main extends Activity {
             for (String url : urls) {
 
                 XMLParser parser = new XMLParser();
-                xml = parser.getXmlFromUrl(url);
+                xml = parser.getXmlFromUrl(url, main.this);
                 //break here for status updates
                 Document doc = parser.getDomElement(xml);
                 NodeList nl = doc.getElementsByTagName("anime"); //filters/breaks out all the anime items

@@ -1,6 +1,7 @@
 package ca.currybox.yaya;
 
 
+import android.content.Context;
 import android.util.Log;
 
 import org.apache.http.HttpEntity;
@@ -16,7 +17,11 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 
@@ -26,7 +31,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 public class XMLParser {
 
-    public String getXmlFromUrl(String url) {
+    public String getXmlFromUrl(String url, Context ctx) {
         String xml = null;
 
         try {
@@ -47,7 +52,12 @@ public class XMLParser {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return xml;
+
+        save("lel.xml", xml, ctx);
+        String lelxml = read("lel.xml", ctx);
+
+
+        return lelxml;
     }
 
     public Document getDomElement(String xml) {
@@ -92,6 +102,37 @@ public class XMLParser {
             }
         }
         return "";
+    }
+
+    public static void save(String filename, String data, Context ctx) {
+        FileOutputStream outputStream;
+        try {
+            outputStream = ctx.openFileOutput(filename, Context.MODE_PRIVATE);
+            outputStream.write(data.getBytes());
+            outputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String read(String filename, Context ctx) {
+        StringBuffer datax = new StringBuffer("");
+        try {
+            FileInputStream fIn = ctx.openFileInput(filename);
+            InputStreamReader isr = new InputStreamReader(fIn);
+            BufferedReader buffreader = new BufferedReader(isr);
+
+            String readString = buffreader.readLine();
+            while (readString != null) {
+                datax.append(readString);
+                readString = buffreader.readLine();
+            }
+
+            isr.close();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+        return datax.toString();
     }
 }
 

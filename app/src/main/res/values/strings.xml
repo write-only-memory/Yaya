@@ -15,5 +15,6 @@
     <string name="play_mx">Play with MX Player</string>
     <string name="title_activity_settings2">Main Settings</string>
     <string name="mal_password">Your MyAnimeList.net password</string>
+    <string name="status_heading">Status:</string>
 
 </resources>

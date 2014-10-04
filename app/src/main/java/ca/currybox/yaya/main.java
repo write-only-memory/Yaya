@@ -7,10 +7,10 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,10 +19,16 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class main extends Activity {
 
     private TextView status;
+    private List<Anime> animeList = null;
+    ListView listview;
+    ListViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +53,8 @@ public class main extends Activity {
         } else { //otherwise show Toast. placeholder action for now
             Toast.makeText(getApplicationContext(), "Not first launch", Toast.LENGTH_LONG).show();
         }
+
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -73,7 +81,7 @@ public class main extends Activity {
 
     public void retrieveList(View v) {
         status = (TextView) findViewById(R.id.status); //the status info box
-        Connection task = new Connection();
+        DownloadXML task = new DownloadXML();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()); //preferences object
         String username = prefs.getString("pref_mal_username", ""); //gets the username from preferences
         String url = "http://myanimelist.net/malappinfo.php?u=" + username + "&status=all&type=anime"; //creates a valid url
@@ -84,12 +92,13 @@ public class main extends Activity {
 
     }
 
-    private class Connection extends AsyncTask<String, Void, String> {
+    private class DownloadXML extends AsyncTask<String, Void, String> {
 
         String[] shows; //array to hold the shows - most likely will be changed to an arrayList
 
         protected String doInBackground(String... urls) {
             String xml = ""; //holds the raw data - not really needed. mostly for debug
+
 
             for (String url : urls) {
 
@@ -97,15 +106,27 @@ public class main extends Activity {
                 xml = parser.getXmlFromUrl(url, main.this);
                 //break here for status updates
                 Document doc = parser.getDomElement(xml);
-                NodeList nl = doc.getElementsByTagName("anime"); //filters/breaks out all the anime items
-                //Log.i("lel","works");
 
-                xml = ""; //reset
-                shows = new String[nl.getLength()];
-                for (int i = 0; i < nl.getLength(); i++) {
-                    Element e = (Element) nl.item(i);
-                    xml = xml + parser.getValue(e, "series_title") + "\n";
-                    shows[i] = parser.getValue(e, "series_title"); //gets the show title per episode
+                animeList = new ArrayList<Anime>();
+
+                try {
+                    //Locate Nodelist
+                    NodeList nl = doc.getElementsByTagName("anime");
+                    for (int i = 0; i < nl.getLength(); i++) {
+                        Element e = (Element) nl.item(i);
+                        Anime show = new Anime();
+                        show.setTitle(parser.getValue(e, "series_title"));
+                        show.setEpisodes(Integer.parseInt(parser.getValue(e, "series_episodes")));
+                        show.setStatus(Integer.parseInt(parser.getValue(e, "my_status")));
+                        show.setSynonyms(parser.getValue(e, "series_synonyms"));
+                        show.setUpdated(Integer.parseInt(parser.getValue(e, "my_last_updated")));
+                        show.setWatched(Integer.parseInt(parser.getValue(e, "my_watched_episodes")));
+
+                        animeList.add(show);
+                    }
+                } catch (Exception e) {
+                    Log.e("Error", e.getMessage());
+                    e.printStackTrace();
                 }
             }
             return xml;
@@ -114,9 +135,13 @@ public class main extends Activity {
         @Override
         protected void onPostExecute(String result) {
 
-            ArrayAdapter<String> titleAdapter = new ArrayAdapter<String>(main.this, R.layout.listview_main, shows); //what it says on the tin - new adapter to fit content
-            ListView showList = (ListView) findViewById(R.id.shows);
-            showList.setAdapter(titleAdapter); //bind the adapter to the listView
+            listview = (ListView) findViewById(R.id.shows);
+
+            adapter = new ListViewAdapter(main.this, animeList);
+
+            listview.setAdapter(adapter);
+
+            status = (TextView) findViewById(R.id.status);
 
             status.setText("Waaaai~~"); //te-he~
         }

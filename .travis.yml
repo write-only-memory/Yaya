@@ -6,17 +6,24 @@ env:
 android:
   components:
     - build-tools-20.0.0
+    - extra-google-m2repository
+    - extra-android-m2repository
+    - addon-google_apis-google-20
+    - android-20
     
 before_script:
   - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
   - emulator -avd test -no-skin -no-audio -no-window &
   - adb wait-for-device
   - adb shell input keyevent 82 &
+  - chmod +x gradlew
 
 script: ./gradlew connectedAndroidTest
 
 notifications:
-  irc: 
-  channels:
-    - "irc.rizon.net#bob-test"
-  channel_key: '123'
+  irc:
+    channels:
+      - "irc.rizon.net#bobtest"
+    channel_key: '123'
+    template:
+      - "%{repository_name} Build #%{build_number} (%{branch} - %{commit} - %{commit_message} by %{author}): %{message}"

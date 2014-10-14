@@ -34,21 +34,21 @@ public class SingleItemView extends Activity {
         episodes = i.getIntExtra("episodes", 0);
         //episodes = Integer.parseInt(i.getStringExtra("episodes"));
         // watched = Integer.parseInt(i.getStringExtra("watched"));
-        // status = Integer.parseInt(i.getStringExtra("status"));
+        status = i.getIntExtra("status", 0); //Integer.parseInt(i.getStringExtra("status"));
         //  updated = Integer.parseInt(i.getStringExtra("updated"));
 
         //Locate items in layout
         TextView titleView = (TextView) findViewById(R.id.list_title);
         TextView episodeView = (TextView) findViewById(R.id.episodes);
         TextView watchedView = (TextView) findViewById(R.id.watched);
-        TextView statusView = (TextView) findViewById(R.id.list_status);
+        TextView statusView = (TextView) findViewById(R.id.status);
         TextView updatedView = (TextView) findViewById(R.id.updated);
 
         //Set values
         titleView.setText(title);
         episodeView.setText(String.valueOf(episodes));
         //watchedView.setText(watched);
-        //statusView.setText(status);
+        statusView.setText(String.valueOf(status));
         //updatedView.setText(updated);
     }
 

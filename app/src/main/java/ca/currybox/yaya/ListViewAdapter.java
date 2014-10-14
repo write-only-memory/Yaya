@@ -86,7 +86,7 @@ public class ListViewAdapter extends BaseAdapter {
         //Set the results into TextViews
         //Use String.valueOf() to convert int return types to string
         holder.title.setText(animeList.get(position).getTitle());
-        holder.episodes.setText(String.valueOf(animeList.get(position).getEpisodes()));
+        holder.episodes.setText(String.valueOf(animeList.get(position).getWatched()) + "/" + String.valueOf(animeList.get(position).getEpisodes()));
         holder.status.setText(String.valueOf(animeList.get(position).getStatus()));
         //holder.updated.setText(animeList.get(position).getUpdated());
 
@@ -117,11 +117,11 @@ public class ListViewAdapter extends BaseAdapter {
     }
 
     //Filter class
-    public void filter(String charText) {
-        String text = charText.toLowerCase();
+    public void filter(int type) {
+        //String text = charText.toLowerCase();
         animeList.clear();
         for (Anime an : arraylist) {
-            if (an.getStatus() == 1) {
+            if (an.getStatus() == type) {
                 animeList.add(an);
             }
         }

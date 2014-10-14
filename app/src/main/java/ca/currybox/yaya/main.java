@@ -142,6 +142,8 @@ public class main extends Activity {
 
             listview.setAdapter(adapter);
 
+            adapter.filter(1); //type 1 is currently watching
+
             status = (TextView) findViewById(R.id.status);
 
             status.setText("Waaaai~~"); //te-he~

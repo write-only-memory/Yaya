@@ -15,27 +15,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/list_title"
-        android:layout_toRightOf="@id/title_label" />
+        android:layout_toRightOf="@id/title_label"
+        android:layout_marginLeft="10dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/episode_label"
         android:text="@string/episode_heading"
-        android:layout_below="@id/title_label" />
+        android:layout_below="@id/list_title" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/watched"
-        android:layout_toRightOf="@id/episode_label" />
+        android:layout_toRightOf="@id/episode_label"
+        android:layout_below="@id/list_title"
+        android:layout_marginLeft="10dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/episodes"
         android:layout_toRightOf="@id/watched"
-        android:layout_below="@id/title_label" />
+        android:layout_below="@id/list_title" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -48,7 +51,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/status"
-        android:layout_toRightOf="@id/status_label" />
+        android:layout_toRightOf="@id/status_label"
+        android:layout_below="@id/watched"
+        android:layout_marginLeft="10dp" />
 
     <TextView
         android:layout_width="wrap_content"

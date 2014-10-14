@@ -3,8 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="5dp">
+    android:layout_height="match_parent">
 
     <TextView
         android:layout_width="wrap_content"
@@ -17,7 +16,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/list_title"
         android:layout_toRightOf="@id/title_label"
-        android:layout_marginLeft="10dp" />
+        android:layout_marginLeft="10dp"
+        android:singleLine="true"
+        android:textStyle="bold" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -59,12 +60,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/updated_label"
+        android:text="@string/updated_heading"
         android:layout_below="@id/status_label" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/updated"
-        android:layout_toRightOf="@id/updated_label" />
+        android:layout_toRightOf="@id/updated_label"
+        android:layout_below="@id/list_status" />
 
 </RelativeLayout>

@@ -60,4 +60,5 @@ public class Anime {
         this.updated = updated;
     }
 
+
 }

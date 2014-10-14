@@ -106,7 +106,7 @@ public class main extends Activity {
 
         protected Void doInBackground(Void... params) {
             XMLParser parser = new XMLParser();
-            String xml = parser.read("lel.xml", main.this);
+            String xml = parser.read("user.xml", main.this);
             Document doc = parser.getDomElement(xml);
             animeList = new ArrayList<Anime>();
 
@@ -138,12 +138,13 @@ public class main extends Activity {
 
             listview = (ListView) findViewById(R.id.shows);
 
+
             adapter = new ListViewAdapter(main.this, animeList);
 
             listview.setAdapter(adapter);
 
             adapter.filter(1); //type 1 is currently watching
-
+            adapter.sortByUpdated(); //sorts the list by last updated
             status = (TextView) findViewById(R.id.status);
 
             status.setText("Waaaai~~"); //te-he~

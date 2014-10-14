@@ -68,6 +68,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/updated"
         android:layout_toRightOf="@id/updated_label"
-        android:layout_below="@id/list_status" />
+        android:layout_below="@id/list_status"
+        android:layout_marginLeft="10dp" />
 
 </RelativeLayout>

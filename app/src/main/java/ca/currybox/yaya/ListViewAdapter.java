@@ -8,7 +8,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -88,7 +92,8 @@ public class ListViewAdapter extends BaseAdapter {
         holder.title.setText(animeList.get(position).getTitle());
         holder.episodes.setText(String.valueOf(animeList.get(position).getWatched()) + "/" + String.valueOf(animeList.get(position).getEpisodes()));
         holder.status.setText(String.valueOf(animeList.get(position).getStatus()));
-        //holder.updated.setText(animeList.get(position).getUpdated());
+        String date = new SimpleDateFormat("yyyy MMM dd 'at' KK:mm:ss a").format(new Date(animeList.get(position).getUpdated() * 1000L));
+        holder.updated.setText(date);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,5 +133,17 @@ public class ListViewAdapter extends BaseAdapter {
 
         notifyDataSetChanged();
     }
+
+    public void sortByUpdated() {
+        Comparator<Anime> comparator = new Comparator<Anime>() {
+            @Override
+            public int compare(Anime anime, Anime anime2) {
+                return (anime.getUpdated() > anime2.getUpdated() ? -1 : (anime.getUpdated() == anime2.getUpdated() ? 0 : 1)); //sorts by last updated first
+            }
+        };
+        Collections.sort(animeList, comparator);
+        notifyDataSetChanged();
+    }
+
 
 }

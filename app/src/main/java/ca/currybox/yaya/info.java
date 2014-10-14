@@ -122,6 +122,8 @@ public class info extends Activity {
         intent.setPackage("com.mxtech.videoplayer.ad");
         startActivity(intent);
     }
+
+
 }
 
 

@@ -7,9 +7,16 @@
 
         <EditTextPreference
             android:defaultValue="@string/mal_default_username"
+            android:singleLine="true"
             android:dialogTitle="@string/mal_username"
             android:key="pref_mal_username"
             android:title="@string/mal_username" />
+        <EditTextPreference
+            android:dialogTitle="@string/mal_password"
+            android:singleLine="true"
+            android:key="pref_mal_password"
+            android:title="@string/mal_password"
+            android:password="true" />
 
 
     </PreferenceCategory>

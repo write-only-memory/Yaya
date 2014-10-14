@@ -4,16 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 
-/**
- * Created by Kanchana on 9/10/2014.
- */
+
 public class SettingsActivity extends Activity {
     //@Override
 
@@ -78,12 +75,7 @@ public class SettingsActivity extends Activity {
             updatePrefsSummary(sharedPreferences, findPreference(key));
         }
 
-        /**
-         * Update summary
-         *
-         * @param sharedPreferences
-         * @param pref
-         */
+
         protected void updatePrefsSummary(SharedPreferences sharedPreferences, Preference pref) {
 
             if (pref == null)
@@ -92,11 +84,8 @@ public class SettingsActivity extends Activity {
             if (pref instanceof EditTextPreference) {
                 // EditPreference
                 EditTextPreference editTextPref = (EditTextPreference) pref;
-                editTextPref.setSummary(editTextPref.getText());
-            } else if (pref instanceof CheckBoxPreference) {
-                CheckBoxPreference checkBoxPref = (CheckBoxPreference) pref;
-                if (checkBoxPref.isChecked()) {
-                    //setTheme();
+                if (!editTextPref.getKey().equals("pref_mal_password")) {
+                    editTextPref.setSummary(editTextPref.getText());
                 }
             }
         }

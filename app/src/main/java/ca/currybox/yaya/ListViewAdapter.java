@@ -84,9 +84,10 @@ public class ListViewAdapter extends BaseAdapter {
          }
          */
         //Set the results into TextViews
+        //Use String.valueOf() to convert int return types to string
         holder.title.setText(animeList.get(position).getTitle());
         holder.episodes.setText(String.valueOf(animeList.get(position).getEpisodes()));
-        //holder.status.setText(animeList.get(position).getStatus());
+        holder.status.setText(String.valueOf(animeList.get(position).getStatus()));
         //holder.updated.setText(animeList.get(position).getUpdated());
 
         view.setOnClickListener(new View.OnClickListener() {

@@ -53,11 +53,11 @@ public class XMLParser {
             e.printStackTrace();
         }
 
-        save("lel.xml", xml, ctx);
-        String lelxml = read("lel.xml", ctx);
+        save("user.xml", xml, ctx);
+        String userxml = read("user.xml", ctx);
 
 
-        return lelxml;
+        return userxml;
     }
 
     public Document getDomElement(String xml) {
@@ -115,7 +115,7 @@ public class XMLParser {
         }
     }
 
-    public static String read(String filename, Context ctx) {
+    public String read(String filename, Context ctx) {
         StringBuffer datax = new StringBuffer("");
         try {
             FileInputStream fIn = ctx.openFileInput(filename);

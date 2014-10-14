@@ -19,6 +19,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +53,15 @@ public class main extends Activity {
             startActivity(intent);
         } else { //otherwise show Toast. placeholder action for now
             Toast.makeText(getApplicationContext(), "Not first launch", Toast.LENGTH_LONG).show();
+        }
+
+        //Follow block checks if user xml file exists. If it does, it populates the listview. Otherwise, do nothing
+        File user = new File(main.this.getFilesDir().toString() + "/user.xml");
+        if (user.exists()) {
+            Toast.makeText(getApplicationContext(), "User file exists", Toast.LENGTH_LONG).show();
+            new PopulateList().execute();
+        } else {
+            Toast.makeText(getApplicationContext(), "User file not found", Toast.LENGTH_LONG).show();
         }
 
 
@@ -92,6 +102,54 @@ public class main extends Activity {
 
     }
 
+    private class PopulateList extends AsyncTask<Void, Void, Void> {
+
+        protected Void doInBackground(Void... params) {
+            XMLParser parser = new XMLParser();
+            String xml = parser.read("lel.xml", main.this);
+            Document doc = parser.getDomElement(xml);
+            animeList = new ArrayList<Anime>();
+
+            try {
+                //Locate Nodelist
+                NodeList nl = doc.getElementsByTagName("anime");
+                for (int i = 0; i < nl.getLength(); i++) {
+                    Element e = (Element) nl.item(i);
+                    Anime show = new Anime();
+                    show.setTitle(parser.getValue(e, "series_title"));
+                    show.setEpisodes(Integer.parseInt(parser.getValue(e, "series_episodes")));
+                    show.setStatus(Integer.parseInt(parser.getValue(e, "my_status")));
+                    show.setSynonyms(parser.getValue(e, "series_synonyms"));
+                    show.setUpdated(Integer.parseInt(parser.getValue(e, "my_last_updated")));
+                    show.setWatched(Integer.parseInt(parser.getValue(e, "my_watched_episodes")));
+
+                    animeList.add(show);
+                }
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+
+            listview = (ListView) findViewById(R.id.shows);
+
+            adapter = new ListViewAdapter(main.this, animeList);
+
+            listview.setAdapter(adapter);
+
+            status = (TextView) findViewById(R.id.status);
+
+            status.setText("Waaaai~~"); //te-he~
+        }
+
+    }
+
+
     private class DownloadXML extends AsyncTask<String, Void, String> {
 
         String[] shows; //array to hold the shows - most likely will be changed to an arrayList
@@ -104,30 +162,6 @@ public class main extends Activity {
 
                 XMLParser parser = new XMLParser();
                 xml = parser.getXmlFromUrl(url, main.this);
-                //break here for status updates
-                Document doc = parser.getDomElement(xml);
-
-                animeList = new ArrayList<Anime>();
-
-                try {
-                    //Locate Nodelist
-                    NodeList nl = doc.getElementsByTagName("anime");
-                    for (int i = 0; i < nl.getLength(); i++) {
-                        Element e = (Element) nl.item(i);
-                        Anime show = new Anime();
-                        show.setTitle(parser.getValue(e, "series_title"));
-                        show.setEpisodes(Integer.parseInt(parser.getValue(e, "series_episodes")));
-                        show.setStatus(Integer.parseInt(parser.getValue(e, "my_status")));
-                        show.setSynonyms(parser.getValue(e, "series_synonyms"));
-                        show.setUpdated(Integer.parseInt(parser.getValue(e, "my_last_updated")));
-                        show.setWatched(Integer.parseInt(parser.getValue(e, "my_watched_episodes")));
-
-                        animeList.add(show);
-                    }
-                } catch (Exception e) {
-                    Log.e("Error", e.getMessage());
-                    e.printStackTrace();
-                }
             }
             return xml;
         }
@@ -135,15 +169,7 @@ public class main extends Activity {
         @Override
         protected void onPostExecute(String result) {
 
-            listview = (ListView) findViewById(R.id.shows);
-
-            adapter = new ListViewAdapter(main.this, animeList);
-
-            listview.setAdapter(adapter);
-
-            status = (TextView) findViewById(R.id.status);
-
-            status.setText("Waaaai~~"); //te-he~
+            new PopulateList().execute();
         }
     }
 

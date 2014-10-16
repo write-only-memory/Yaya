@@ -131,14 +131,29 @@ public class playMatch extends Activity {
         String xml = parser.read("user.xml", this);
         Document doc = parser.getDomElement(xml);
         List<Anime> animeList = new animeList().getList(doc); //reads the user xml file into memory
-
+        title = title.replaceAll("[^!~'A-z]", ""); //gets rid of whitespaces and special characters that are not !, ~, or '
+        Log.i("Detected title", title);
         //iterates through the array and checks if triggered show exists in user list
         for (int i = 0; i < animeList.size(); i++) {
-            if (title.equalsIgnoreCase(animeList.get(i).getTitle())) {
+            String[] synonyms = animeList.get(i).getSynonyms().split(";");
+            String listTitle = animeList.get(i).getTitle().replaceAll("[^!~'A-z]", "");
+            if (title.equalsIgnoreCase(listTitle)) {
                 show = animeList.get(i);
                 TextView match = (TextView) findViewById(R.id.match_title);
-                match.setText(animeList.get(i).getTitle());
+                match.setText("Filename matched with: " + animeList.get(i).getTitle());
+                break;
+            } else {
+                for (String synonym : synonyms) {
+                    synonym = synonym.replaceAll("[^!~'A-z]", "");
+                    if (title.equalsIgnoreCase(synonym)) {
+                        show = animeList.get(i);
+                        TextView match = (TextView) findViewById(R.id.match_title);
+                        match.setText("Filename matched with: " + animeList.get(i).getTitle());
+                        break;
+                    }
+                }
             }
+
         }
 
     }
@@ -158,6 +173,8 @@ public class playMatch extends Activity {
     public void update(View v) {
         show.setWatched(show.getWatched() + 1);
         updateMal updater = new updateMal();
+        TextView status = (TextView) findViewById(R.id.update_status);
+        status.setText("Starting update...");
         updater.execute();
     }
 
@@ -190,6 +207,14 @@ public class playMatch extends Activity {
             }
 
             return result;
+        }
+
+        protected void onPostExecute(String result) {
+            TextView status = (TextView) findViewById(R.id.update_status);
+            status.setText("Reply from server: " + result);
+            if (result.equalsIgnoreCase("updated")) {
+
+            }
         }
     }
 

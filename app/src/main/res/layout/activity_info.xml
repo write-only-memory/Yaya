@@ -115,4 +115,13 @@
         android:layout_below="@id/match_title"
         android:id="@+id/update_button" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/update_status"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/update_button"
+        android:layout_alignLeft="@+id/update_button"
+        android:layout_alignStart="@+id/update_button" />
+
 </RelativeLayout>

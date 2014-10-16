@@ -2,7 +2,9 @@ package ca.currybox.yaya;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -22,6 +24,12 @@ public class SingleItemView extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()); //preferences object
+        if (prefs.getBoolean("dark_pref", false)) //checks if settings checkbox is true to set app into dark mode
+        {
+            setTheme(R.style.AppTheme_Dark);
+        }
 
         //Get the view from singleitemview.xml
         setContentView(R.layout.singleitemview);

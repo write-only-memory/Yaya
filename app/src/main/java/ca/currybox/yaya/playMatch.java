@@ -213,8 +213,24 @@ public class playMatch extends Activity {
             TextView status = (TextView) findViewById(R.id.update_status);
             status.setText("Reply from server: " + result);
             if (result.equalsIgnoreCase("updated")) {
+                XMLParser parser = new XMLParser();
 
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()); //preferences object
+                String username = prefs.getString("pref_mal_username", ""); //gets the username from preferences
+                String url = "http://myanimelist.net/malappinfo.php?u=" + username + "&status=all&type=anime"; //creates a valid url
+                new downloadUser().execute(url);
             }
+        }
+    }
+
+    private class downloadUser extends AsyncTask<String, Void, Void> {
+        protected Void doInBackground(String... urls) {
+            for (String url : urls) {
+                XMLParser parser = new XMLParser();
+                parser.getXmlFromUrl(url);
+                parser.write("user.xml", playMatch.this);
+            }
+            return null;
         }
     }
 

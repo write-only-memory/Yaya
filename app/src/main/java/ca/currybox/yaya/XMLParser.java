@@ -31,8 +31,10 @@ import javax.xml.parsers.ParserConfigurationException;
 
 public class XMLParser {
 
-    public String getXmlFromUrl(String url, Context ctx) {
-        String xml = null;
+    String xml = null;
+
+    public void getXmlFromUrl(String url) {
+
 
         try {
             //defaultHttpClient
@@ -53,11 +55,14 @@ public class XMLParser {
             e.printStackTrace();
         }
 
-        save("user.xml", xml, ctx);
-        String userxml = read("user.xml", ctx);
+    }
 
+    public void write(String filename, Context ctx) {
+        save(filename, xml, ctx);
+    }
 
-        return userxml;
+    public String read(String filename, Context ctx) {
+        return readfile(filename, ctx);
     }
 
     public Document getDomElement(String xml) {
@@ -104,7 +109,7 @@ public class XMLParser {
         return "";
     }
 
-    public static void save(String filename, String data, Context ctx) {
+    private static void save(String filename, String data, Context ctx) {
         FileOutputStream outputStream;
         try {
             outputStream = ctx.openFileOutput(filename, Context.MODE_PRIVATE);
@@ -115,7 +120,7 @@ public class XMLParser {
         }
     }
 
-    public String read(String filename, Context ctx) {
+    private String readfile(String filename, Context ctx) {
         StringBuffer datax = new StringBuffer("");
         try {
             FileInputStream fIn = ctx.openFileInput(filename);

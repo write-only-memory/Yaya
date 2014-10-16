@@ -87,7 +87,7 @@ public class main extends Activity {
 
     public void retrieveList(View v) {
         status = (TextView) findViewById(R.id.status); //the status info box
-        DownloadXML task = new DownloadXML();
+        DownloadUser task = new DownloadUser();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()); //preferences object
         String username = prefs.getString("pref_mal_username", ""); //gets the username from preferences
         String url = "http://myanimelist.net/malappinfo.php?u=" + username + "&status=all&type=anime"; //creates a valid url
@@ -129,24 +129,21 @@ public class main extends Activity {
     }
 
 
-    private class DownloadXML extends AsyncTask<String, Void, String> {
+    private class DownloadUser extends AsyncTask<String, Void, Void> {
 
-        String[] shows; //array to hold the shows - most likely will be changed to an arrayList
-
-        protected String doInBackground(String... urls) {
-            String xml = ""; //holds the raw data - not really needed. mostly for debug
-
+        protected Void doInBackground(String... urls) {
 
             for (String url : urls) {
 
                 XMLParser parser = new XMLParser();
-                xml = parser.getXmlFromUrl(url, main.this);
+                parser.getXmlFromUrl(url);
+                parser.write("user.xml", main.this);
             }
-            return xml;
+            return null;
         }
 
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(Void result) {
 
             new PopulateList().execute();
         }

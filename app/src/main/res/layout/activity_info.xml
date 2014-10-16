@@ -93,6 +93,26 @@
         android:layout_marginLeft="20dp"
         android:onClick="playFile"
         android:text="@string/play_mx"
-        android:layout_below="@id/extracted_info"/>
+        android:layout_below="@id/extracted_info"
+        android:id="@+id/play_button" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@id/play_button"
+        android:layout_marginTop="10dp"
+        android:id="@+id/match_title"
+        android:text="@string/not_found" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:onClick="update"
+        android:text="Update MAL"
+        android:layout_below="@id/match_title"
+        android:id="@+id/update_button" />
 
 </RelativeLayout>

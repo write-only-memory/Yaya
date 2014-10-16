@@ -11,6 +11,7 @@ public class Anime {
     private int watched;
     private int status;
     private int updated;
+    private int id;
 
     public String getTitle() {
         return title;
@@ -58,6 +59,14 @@ public class Anime {
 
     public void setUpdated(int updated) {
         this.updated = updated;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
     }
 
 

@@ -9,20 +9,38 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+import org.w3c.dom.Document;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.List;
 
-public class info extends Activity {
+public class playMatch extends Activity {
 
-    public info() {
+    private Anime show;
+
+
+    public playMatch() {
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -79,7 +97,7 @@ public class info extends Activity {
         filename.setText(path); //sets the path (why is this even here? its getting replaced below...)
 
         String s4; //temporary strings to hold the niceified names
-        String s5; //random123
+        String s5; //another temp string
 
         try {
             s4 = URLDecoder.decode(path, "UTF-8"); //un-escapes the uri path because dicks and stupid %20s and shit
@@ -109,6 +127,20 @@ public class info extends Activity {
         titleView.setText(title); //sets view accordingly
         episodeView.setText(episode);
 
+        XMLParser parser = new XMLParser();
+        String xml = parser.read("user.xml", this);
+        Document doc = parser.getDomElement(xml);
+        List<Anime> animeList = new animeList().getList(doc); //reads the user xml file into memory
+
+        //iterates through the array and checks if triggered show exists in user list
+        for (int i = 0; i < animeList.size(); i++) {
+            if (title.equalsIgnoreCase(animeList.get(i).getTitle())) {
+                show = animeList.get(i);
+                TextView match = (TextView) findViewById(R.id.match_title);
+                match.setText(animeList.get(i).getTitle());
+            }
+        }
+
     }
 
     public void playFile(View v) {
@@ -121,6 +153,44 @@ public class info extends Activity {
         intent.setDataAndType(videoUri, "application/x-mpegURL");
         intent.setPackage("com.mxtech.videoplayer.ad");
         startActivity(intent);
+    }
+
+    public void update(View v) {
+        show.setWatched(show.getWatched() + 1);
+        updateMal updater = new updateMal();
+        updater.execute();
+    }
+
+    private class updateMal extends AsyncTask<Void, Void, String> {
+        protected String doInBackground(Void... urls) {
+            String result = "";
+            try {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()); //preferences object
+                String creds = prefs.getString("pref_mal_username", "a") + ":" + prefs.getString("pref_mal_password", "a"); //set credentials
+
+
+                HttpClient httpClient = new DefaultHttpClient();
+                HttpPost httpPost = new HttpPost("http://myanimelist.net/api/animelist/update/" + show.getId() + ".xml"); //mal update url
+                httpPost.addHeader("User-Agent", "api-indiv-7CFAF2BE04B34623771B356D83B38EC9"); //set user agent
+
+                final String basicAuth = "Basic " + Base64.encodeToString(creds.getBytes(), Base64.NO_WRAP); //encode auth
+                httpPost.addHeader("Authorization", basicAuth); //add auth header to request
+
+                String xml = new createXML(show).getXML(); //set xml data for updating
+                Log.i("XML Sent", xml);
+                ArrayList<NameValuePair> postParams = new ArrayList<NameValuePair>(1); //namevaluepair for extra parameters
+                postParams.add(new BasicNameValuePair("data", xml)); //add xml data
+                httpPost.setEntity(new UrlEncodedFormEntity(postParams));
+
+                HttpResponse response = httpClient.execute(httpPost);
+                result = EntityUtils.toString(response.getEntity()); //store response
+                Log.i("HTTP Response", result);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return result;
+        }
     }
 
 

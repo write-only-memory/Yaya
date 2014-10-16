@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,11 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -108,28 +104,8 @@ public class main extends Activity {
             XMLParser parser = new XMLParser();
             String xml = parser.read("user.xml", main.this);
             Document doc = parser.getDomElement(xml);
-            animeList = new ArrayList<Anime>();
 
-            try {
-                //Locate Nodelist
-                NodeList nl = doc.getElementsByTagName("anime");
-                for (int i = 0; i < nl.getLength(); i++) {
-                    Element e = (Element) nl.item(i);
-                    Anime show = new Anime();
-                    show.setTitle(parser.getValue(e, "series_title"));
-                    show.setEpisodes(Integer.parseInt(parser.getValue(e, "series_episodes")));
-                    show.setStatus(Integer.parseInt(parser.getValue(e, "my_status")));
-                    show.setSynonyms(parser.getValue(e, "series_synonyms"));
-                    show.setUpdated(Integer.parseInt(parser.getValue(e, "my_last_updated")));
-                    show.setWatched(Integer.parseInt(parser.getValue(e, "my_watched_episodes")));
-
-                    animeList.add(show);
-                }
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-
+            animeList = new animeList().getList(doc);
             return null;
         }
 

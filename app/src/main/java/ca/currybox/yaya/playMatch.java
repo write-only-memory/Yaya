@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -132,6 +133,9 @@ public class playMatch extends Activity {
         List<Anime> animeList = new animeList().getList(doc); //reads the user xml file into memory
         title = title.replaceAll("[^!~'A-z]", ""); //gets rid of whitespaces and special characters that are not !, ~, or '
         Log.i("Detected title", title);
+
+        Button updateButton = (Button) findViewById(R.id.update_button);
+
         //iterates through the array and checks if triggered show exists in user list
         for (int i = 0; i < animeList.size(); i++) {
             String[] synonyms = animeList.get(i).getSynonyms().split(";");
@@ -140,6 +144,7 @@ public class playMatch extends Activity {
                 show = animeList.get(i);
                 TextView match = (TextView) findViewById(R.id.match_title);
                 match.setText("Filename matched with: " + animeList.get(i).getTitle());
+                updateButton.setEnabled(true);
                 break;
             } else {
                 for (String synonym : synonyms) {
@@ -148,6 +153,7 @@ public class playMatch extends Activity {
                         show = animeList.get(i);
                         TextView match = (TextView) findViewById(R.id.match_title);
                         match.setText("Filename matched with: " + animeList.get(i).getTitle());
+                        updateButton.setEnabled(true);
                         break;
                     }
                 }

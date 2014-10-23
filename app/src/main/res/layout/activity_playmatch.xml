@@ -101,7 +101,8 @@
         android:onClick="update"
         android:text="Update MAL"
         android:layout_below="@id/match_title"
-        android:id="@+id/update_button" />
+        android:id="@+id/update_button"
+        android:enabled="false" />
 
     <TextView
         android:layout_width="wrap_content"

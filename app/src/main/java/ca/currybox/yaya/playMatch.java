@@ -38,6 +38,7 @@ import java.util.List;
 public class playMatch extends Activity {
 
     private Anime show;
+    private String uri;
 
 
     public playMatch() {
@@ -84,23 +85,21 @@ public class playMatch extends Activity {
             Toast.makeText(getApplicationContext(), "Not first launch", Toast.LENGTH_LONG).show();
         }
 
-        setContentView(R.layout.activity_info);
+        setContentView(R.layout.activity_playmatch);
 
         Intent intent = getIntent(); //get initial Intent from calling app
 
-        String path = intent.getDataString(); //gets the full uri of the episode (usually a http url from a local proxy)
+        uri = intent.getDataString(); //gets the full uri of the episode (usually a http url from a local proxy)
 
-        TextView uriView = (TextView) findViewById(R.id.full_URI);
-        uriView.setText(path);
 
         TextView filename = (TextView) findViewById(R.id.filename); //id of the textview used to show the cleaned up filename
-        filename.setText(path); //sets the path (why is this even here? its getting replaced below...)
+        filename.setText(uri); //sets the path (why is this even here? its getting replaced below...)
 
         String s4; //temporary strings to hold the niceified names
         String s5; //another temp string
 
         try {
-            s4 = URLDecoder.decode(path, "UTF-8"); //un-escapes the uri path because dicks and stupid %20s and shit
+            s4 = URLDecoder.decode(uri, "UTF-8"); //un-escapes the uri path because dicks and stupid %20s and shit
         } catch (UnsupportedEncodingException unsupportedencodingexception) {
             throw new AssertionError("UTF-8 is unknown"); //likes to throw this error for no reason. this ignores it
         }
@@ -160,9 +159,6 @@ public class playMatch extends Activity {
 
     public void playFile(View v) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
-
-        TextView uriView = (TextView) findViewById(R.id.full_URI);
-        String uri = (String) uriView.getText();
 
         Uri videoUri = Uri.parse(uri);
         intent.setDataAndType(videoUri, "application/x-mpegURL");

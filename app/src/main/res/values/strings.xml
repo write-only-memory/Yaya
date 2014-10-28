@@ -17,6 +17,6 @@
     <string name="mal_password">Your MyAnimeList.net password</string>
     <string name="status_heading">Status:</string>
     <string name="updated_heading">Last updated:</string>
-    <string name="not_found">Not found</string>
+    <string name="not_found">Not match found</string>
 
 </resources>

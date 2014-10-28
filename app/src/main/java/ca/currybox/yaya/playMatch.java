@@ -152,7 +152,7 @@ public class playMatch extends Activity {
                     if (title.equalsIgnoreCase(synonym)) {
                         show = animeList.get(i);
                         TextView match = (TextView) findViewById(R.id.match_title);
-                        match.setText("Filename matched with: " + animeList.get(i).getTitle());
+                        match.setText("Match found: " + animeList.get(i).getTitle());
                         updateButton.setEnabled(true);
                         break;
                     }

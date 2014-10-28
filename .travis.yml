@@ -8,8 +8,8 @@ android:
     - build-tools-20.0.0
     - extra-google-m2repository
     - extra-android-m2repository
-    - addon-google_apis-google-20
-    - android-20
+    - addon-google_apis-google-21
+    - android-21
     
 before_script:
   - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI

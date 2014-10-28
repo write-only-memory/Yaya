@@ -74,12 +74,6 @@ public class playMatch extends ActionBarActivity {
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()); //preferences object
-        if (prefs.getBoolean("dark_pref", false)) //checks if settings checkbox is true to set app into dark mode
-        {
-            setTheme(R.style.AppTheme_Dark);
-        }
-
         SharedPreferences firstLaunch = getSharedPreferences("FirstLaunch", Context.MODE_PRIVATE); //get object for below
         boolean shownPrefs = firstLaunch.getBoolean("HaveShownPrefs", false); //gets the value to check if application has been launched at least once
         //Todo: Possibly change this to see if MAL username is non-default
@@ -277,8 +271,6 @@ public class playMatch extends ActionBarActivity {
                 });
 
                 last_ep.startAnimation(slide1);
-
-
 
 
             }

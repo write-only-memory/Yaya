@@ -1,9 +1,7 @@
 package ca.currybox.yaya;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -25,12 +23,6 @@ public class SingleItemView extends ActionBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()); //preferences object
-        if (prefs.getBoolean("dark_pref", false)) //checks if settings checkbox is true to set app into dark mode
-        {
-            setTheme(R.style.AppTheme_Dark);
-        }
 
         Intent i = getIntent();
         title = i.getStringExtra("title");

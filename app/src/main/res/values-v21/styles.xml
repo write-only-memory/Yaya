@@ -1,16 +1,14 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="AppTheme.Base" />
+    <style name="AppTheme.Base" parent="AppTheme.Base">
 
-    <style name="AppTheme.Base" parent="Theme.AppCompat">
         <item name="colorPrimary">@color/material_deep_teal_200</item>
         <item name="colorPrimaryDark">@color/material_deep_teal_500</item>
-        <!-- <item name="android:windowTranslucentStatus">true</item> -->
-        <item name="windowActionBar">false</item>
 
     </style>
 
     <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar" />
+
 
 </resources>

@@ -92,7 +92,7 @@ public class ListViewAdapter extends BaseAdapter {
         holder.title.setText(animeList.get(position).getTitle());
         holder.episodes.setText(String.valueOf(animeList.get(position).getWatched()) + "/" + String.valueOf(animeList.get(position).getEpisodes()));
         holder.status.setText(String.valueOf(animeList.get(position).getStatus()));
-        String date = new SimpleDateFormat("yyyy MMM dd 'at' KK:mm:ss a").format(new Date(animeList.get(position).getUpdated() * 1000L));
+        String date = new SimpleDateFormat("MMM dd yyyy 'at' KK:mm:ss a").format(new Date(animeList.get(position).getUpdated() * 1000L));
         holder.updated.setText(date);
 
         view.setOnClickListener(new View.OnClickListener() {

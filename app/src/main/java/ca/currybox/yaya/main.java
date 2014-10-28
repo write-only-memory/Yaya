@@ -1,12 +1,13 @@
 package ca.currybox.yaya;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +21,7 @@ import java.io.File;
 import java.util.List;
 
 
-public class main extends Activity {
+public class main extends ActionBarActivity {
 
     private TextView status;
     private List<Anime> animeList = null;
@@ -39,6 +40,8 @@ public class main extends Activity {
         }
 
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
 
         SharedPreferences firstLaunch = getSharedPreferences("FirstLaunch", Context.MODE_PRIVATE); //get object for below
         boolean shownPrefs = firstLaunch.getBoolean("HaveShownPrefs", false); //gets the value to check if application has been launched at least once
@@ -77,7 +80,7 @@ public class main extends Activity {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
 
-            Intent intent = new Intent(this, SettingsActivity.class); //intent for the default drop-down menu Settings button
+            Intent intent = new Intent(this, MyPreferenceActivity.class); //intent for the default drop-down menu Settings button
             startActivity(intent);
 
             return true;

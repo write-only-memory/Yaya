@@ -4,41 +4,40 @@
     android:layout_height="fill_parent"
     android:id="@+id/main_info_view">
 
-    <GridLayout
-        android:layout_width="wrap_content"
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/main_toolbar"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_width="match_parent"
+        android:fitsSystemWindows="true"
+        android:minHeight="?attr/actionBarSize"
+        android:background="?attr/colorPrimary" />
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
         android:layout_marginTop="20dp"
-        android:columnCount="2"
-        android:rowCount="2"
-        android:id="@+id/raw_info">
-
-        <TextView
-            android:layout_column="0"
-            android:layout_marginRight="5dp"
-            android:layout_row="0"
             android:text="@string/filename"
-            android:id="@+id/filename_heading" />
+        android:id="@+id/filename_heading"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@id/main_toolbar" />
 
-        <TextView
+    <TextView
             android:id="@+id/filename"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:layout_row="0" />
+        android:layout_toRightOf="@id/filename_heading"
+        android:layout_marginLeft="10dp"
+        android:layout_alignTop="@+id/filename_heading" />
 
 
-    </GridLayout>
-
-    <GridLayout
-        android:layout_width="wrap_content"
+    android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
-        android:columnCount="2"
-        android:rowCount="2"
-        android:id="@+id/extracted_info"
-        android:layout_below="@id/raw_info">
+
+    android:id="@+id/extracted_info"
+    android:layout_below="@+id/filename_heading">
 
         <TextView
             android:id="@+id/title_heading"
@@ -48,61 +47,77 @@
             android:layout_marginRight="5dp"
             android:layout_row="0"
             android:autoText="false"
-            android:text="@string/title_heading" />
+            android:text="@string/title_heading"
+            android:layout_alignLeft="@+id/filename_heading"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/filename_heading"
+            android:visibility="gone" />
 
-        <TextView
+    <TextView
             android:id="@+id/episode_heading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="0"
             android:layout_marginRight="5dp"
             android:layout_row="1"
-            android:text="@string/episode_heading" />
+        android:text="@string/episode_heading"
+        android:layout_marginTop="5dp"
+        android:layout_alignLeft="@+id/filename_heading"
+        android:layout_below="@+id/title_heading"
+        android:visibility="gone" />
 
-        <TextView
+    <TextView
             android:id="@+id/title_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="1"
-            android:layout_row="0" />
+        android:layout_row="0"
+        android:layout_alignTop="@+id/title_heading"
+        android:layout_toRightOf="@+id/filename"
+        android:visibility="gone" />
 
-        <TextView
+    <TextView
             android:id="@+id/episode_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="1"
-            android:layout_row="1" />
-    </GridLayout>
+        android:layout_row="1"
+        android:layout_alignTop="@+id/episode_heading"
+        android:layout_alignLeft="@+id/filename"
+        android:visibility="gone" />
+
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="20dp"
         android:onClick="playFile"
         android:text="@string/play_mx"
-        android:layout_below="@id/extracted_info"
-        android:id="@+id/play_button" />
+        android:id="@+id/play_button"
+        android:layout_toEndOf="@+id/update_button"
+        android:layout_alignTop="@+id/update_button"
+        android:layout_toRightOf="@+id/update_button" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_below="@id/play_button"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="22dp"
         android:id="@+id/match_title"
-        android:text="@string/not_found" />
+        android:text="@string/not_found"
+        android:layout_below="@+id/episode_heading"
+        android:layout_alignLeft="@+id/episode_heading"
+        android:layout_alignStart="@+id/episode_heading" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="20dp"
         android:onClick="update"
         android:text="Update MAL"
-        android:layout_below="@id/match_title"
         android:id="@+id/update_button"
-        android:enabled="false" />
+        android:enabled="false"
+        android:layout_below="@+id/match_title"
+        android:layout_alignLeft="@+id/match_title"
+        android:layout_alignStart="@+id/match_title"
+        android:layout_marginTop="74dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -112,5 +127,41 @@
         android:layout_below="@+id/update_button"
         android:layout_alignLeft="@+id/update_button"
         android:layout_alignStart="@+id/update_button" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Last updated episode:"
+        android:id="@+id/mal_last_ep_heading"
+        android:layout_below="@+id/match_title"
+        android:layout_alignLeft="@+id/match_title"
+        android:layout_alignStart="@+id/match_title"
+        android:layout_marginTop="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/mal_last_ep"
+        android:layout_alignTop="@+id/mal_last_ep_heading"
+        android:layout_toRightOf="@+id/mal_last_ep_heading"
+        android:layout_toEndOf="@+id/mal_last_ep_heading"
+        android:layout_marginLeft="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Last updated on:"
+        android:id="@+id/mal_last_update_heading"
+        android:layout_below="@+id/mal_last_ep_heading"
+        android:layout_alignLeft="@+id/mal_last_ep_heading"
+        android:layout_alignStart="@+id/mal_last_ep_heading" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/mal_last_update"
+        android:layout_alignTop="@+id/mal_last_update_heading"
+        android:layout_alignLeft="@+id/mal_last_ep"
+        android:layout_alignStart="@+id/mal_last_ep" />
 
 </RelativeLayout>

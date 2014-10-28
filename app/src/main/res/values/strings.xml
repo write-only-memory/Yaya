@@ -18,5 +18,6 @@
     <string name="status_heading">Status:</string>
     <string name="updated_heading">Last updated:</string>
     <string name="not_found">Not match found</string>
+    <string name="preferences">Preferences</string>
 
 </resources>

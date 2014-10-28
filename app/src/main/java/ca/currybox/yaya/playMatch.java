@@ -4,7 +4,6 @@ package ca.currybox.yaya;
  * Created by Lel on 9/7/2014.
  */
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,11 +11,15 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,10 +36,12 @@ import org.w3c.dom.Document;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-public class playMatch extends Activity {
+public class playMatch extends ActionBarActivity {
 
     private Anime show;
     private String uri;
@@ -87,6 +92,9 @@ public class playMatch extends Activity {
         }
 
         setContentView(R.layout.activity_playmatch);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
+
 
         Intent intent = getIntent(); //get initial Intent from calling app
 
@@ -145,6 +153,16 @@ public class playMatch extends Activity {
                 TextView match = (TextView) findViewById(R.id.match_title);
                 match.setText("Filename matched with: " + animeList.get(i).getTitle());
                 updateButton.setEnabled(true);
+
+                getSupportActionBar().setTitle(show.getTitle());
+
+                TextView mal_ep = (TextView) findViewById(R.id.mal_last_ep);
+                mal_ep.setText(String.valueOf(show.getWatched()));
+
+                TextView mal_updated = (TextView) findViewById(R.id.mal_last_update);
+                String date = new SimpleDateFormat("MMM dd yyyy 'at' KK:mm:ss a").format(new Date(show.getUpdated() * 1000L));
+                mal_updated.setText(date);
+
                 break;
             } else {
                 for (String synonym : synonyms) {
@@ -154,12 +172,23 @@ public class playMatch extends Activity {
                         TextView match = (TextView) findViewById(R.id.match_title);
                         match.setText("Match found: " + animeList.get(i).getTitle());
                         updateButton.setEnabled(true);
+
+                        getSupportActionBar().setTitle(show.getTitle());
+
+                        TextView mal_ep = (TextView) findViewById(R.id.mal_last_ep);
+                        mal_ep.setText(String.valueOf(show.getWatched()));
+
+                        TextView mal_updated = (TextView) findViewById(R.id.mal_last_update);
+                        String date = new SimpleDateFormat("MMM dd yyyy 'at' KK:mm:ss a").format(new Date(show.getUpdated() * 1000L));
+                        mal_updated.setText(date);
+
                         break;
                     }
                 }
             }
 
         }
+
 
     }
 
@@ -221,6 +250,37 @@ public class playMatch extends Activity {
                 String username = prefs.getString("pref_mal_username", ""); //gets the username from preferences
                 String url = "http://myanimelist.net/malappinfo.php?u=" + username + "&status=all&type=anime"; //creates a valid url
                 new downloadUser().execute(url);
+
+                TextView last_ep = (TextView) findViewById(R.id.mal_last_ep);
+                last_ep.setText(String.valueOf(show.getWatched()));
+
+                final TextView updated = (TextView) findViewById(R.id.mal_last_update);
+                updated.setText("Just now...");
+
+                Animation slide1 = AnimationUtils.loadAnimation(playMatch.this, R.anim.slide_down);
+                slide1.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        updated.startAnimation(AnimationUtils.loadAnimation(playMatch.this, R.anim.slide_down));
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+
+                last_ep.startAnimation(slide1);
+
+
+
+
             }
         }
     }

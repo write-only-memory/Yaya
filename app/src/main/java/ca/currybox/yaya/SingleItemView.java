@@ -1,17 +1,18 @@
 package ca.currybox.yaya;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.TextView;
 
 /**
  * Created by write_only_memory on 10/3/2014.
  */
-public class SingleItemView extends Activity {
+public class SingleItemView extends ActionBarActivity {
 
     //Declare vars
     private String title;
@@ -31,11 +32,17 @@ public class SingleItemView extends Activity {
             setTheme(R.style.AppTheme_Dark);
         }
 
-        //Get the view from singleitemview.xml
-        setContentView(R.layout.singleitemview);
-
         Intent i = getIntent();
         title = i.getStringExtra("title");
+
+        //Get the view from singleitemview.xml
+        setContentView(R.layout.singleitemview);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        toolbar.setTitle(title);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
         Log.i("INFO", title);
         synonyms = i.getStringExtra("synonyms");
 //        Log.i("INFO",synonyms);

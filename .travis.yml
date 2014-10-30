@@ -3,6 +3,9 @@ jdk: oraclejdk7
 env:
   matrix:
     - ANDROID_TARGET=android-16 ANDROID_ABI=armeabi-v7a
+  global:
+    -
+    -
 android:
   components:
     - build-tools-20.0.0
@@ -17,6 +20,9 @@ before_script:
   - adb wait-for-device
   - adb shell input keyevent 82 &
   - chmod +x gradlew
+
+after_success:
+
 
 script: ./gradlew connectedAndroidTest
 

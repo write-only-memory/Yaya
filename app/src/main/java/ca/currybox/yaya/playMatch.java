@@ -18,7 +18,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
@@ -250,27 +249,9 @@ public class playMatch extends ActionBarActivity {
 
                 final TextView updated = (TextView) findViewById(R.id.mal_last_update);
                 updated.setText("Just now...");
+                updated.startAnimation(AnimationUtils.loadAnimation(playMatch.this, R.anim.slide_down));
 
-                Animation slide1 = AnimationUtils.loadAnimation(playMatch.this, R.anim.slide_down);
-                slide1.setAnimationListener(new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        updated.startAnimation(AnimationUtils.loadAnimation(playMatch.this, R.anim.slide_down));
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-
-                    }
-                });
-
-                last_ep.startAnimation(slide1);
+                last_ep.startAnimation(AnimationUtils.loadAnimation(playMatch.this, R.anim.slide_down));
 
 
             }

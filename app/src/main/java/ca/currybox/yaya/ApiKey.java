@@ -6,6 +6,6 @@ package ca.currybox.yaya;
 public class ApiKey {
 
     public String getKey() {
-        return "your mal api key here";
+        return "api-indiv-7CFAF2BE04B34623771B356D83B38EC9";
     }
 }

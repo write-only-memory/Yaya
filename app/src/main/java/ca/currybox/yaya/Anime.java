@@ -12,6 +12,7 @@ public class Anime {
     private int status;
     private int updated;
     private int id;
+    private String dateFinished;
 
     public String getTitle() {
         return title;
@@ -69,5 +70,13 @@ public class Anime {
         return id;
     }
 
+    public String getDateFinished()
+    {
+        return dateFinished;
+    }
 
+    public void setDateFinished(String date)
+    {
+        dateFinished = date;
+    }
 }

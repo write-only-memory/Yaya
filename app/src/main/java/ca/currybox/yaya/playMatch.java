@@ -37,8 +37,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class playMatch extends ActionBarActivity {
 
@@ -195,7 +197,18 @@ public class playMatch extends ActionBarActivity {
     }
 
     public void update(View v) {
-        show.setWatched(show.getWatched() + 1);
+        show.setWatched(show.getWatched() + 1); //increment watched episode
+
+        if (show.getWatched() == show.getEpisodes())
+        {
+            show.setStatus(2); //if watched = total, change status from watching to completed
+
+            //get current date and set as date completed
+            String date = new SimpleDateFormat("MMddyyyy").format(Calendar.getInstance().getTime());
+            Log.i("Date",date);
+            show.setDateFinished(date);
+        }
+
         updateMal updater = new updateMal();
         TextView status = (TextView) findViewById(R.id.update_status);
         status.setText("Starting update...");
@@ -239,6 +252,10 @@ public class playMatch extends ActionBarActivity {
             if (result.equalsIgnoreCase("updated")) {
                 XMLParser parser = new XMLParser();
 
+                Button updateButton = (Button) findViewById(R.id.update_button);
+                updateButton.setEnabled(false); //disable update button on successful previous update
+
+                //re-downloads animelist from MAL after successful list update (this is stupid inefficient, but blame MAL's lack of proper API
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()); //preferences object
                 String username = prefs.getString("pref_mal_username", ""); //gets the username from preferences
                 String url = "http://myanimelist.net/malappinfo.php?u=" + username + "&status=all&type=anime"; //creates a valid url

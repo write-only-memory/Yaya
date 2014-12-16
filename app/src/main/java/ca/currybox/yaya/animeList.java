@@ -30,6 +30,7 @@ public class animeList {
                 show.setUpdated(Integer.parseInt(parser.getValue(e, "my_last_updated")));
                 show.setWatched(Integer.parseInt(parser.getValue(e, "my_watched_episodes")));
                 show.setId(Integer.parseInt(parser.getValue(e, "series_animedb_id")));
+                show.setDateFinished(parser.getValue(e, "my_finish_date"));
 
                 animeList.add(show);
             }

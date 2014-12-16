@@ -22,10 +22,20 @@ public class createXML {
             serializer.startDocument("UTF-8", true);
             serializer.startTag("", "entry");
 
+            //start of update values
             serializer.startTag("", "episode");
             serializer.text(String.valueOf(show.getWatched()));
             serializer.endTag("", "episode");
 
+            serializer.startTag("", "status");
+            serializer.text(String.valueOf(show.getStatus()));
+            serializer.endTag("", "status");
+
+            serializer.startTag("", "date_finish");
+            serializer.text(String.valueOf(show.getDateFinished()));
+            serializer.endTag("", "date_finish");
+
+            //end of update values
             serializer.endTag("", "entry");
             serializer.endDocument();
             //return writer.toString();

@@ -21,7 +21,7 @@ public class SettingsActivity extends Activity {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()); //preferences object
         if (prefs.getBoolean("dark_pref", false)) //checks if settings checkbox is true to set app into dark mode
         {
-            setTheme(R.style.AppTheme_Dark);
+            setTheme(R.style.AppTheme);
         }
 
         //Display the fragment as the main content

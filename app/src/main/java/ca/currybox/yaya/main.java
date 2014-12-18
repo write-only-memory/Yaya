@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -32,29 +33,37 @@ public class main extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_appbar);
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+
+
         SharedPreferences firstLaunch = getSharedPreferences("FirstLaunch", Context.MODE_PRIVATE); //get object for below
         boolean shownPrefs = firstLaunch.getBoolean("HaveShownPrefs", false); //gets the value to check if application has been launched at least once
+        drawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar, shownPrefs);
         //Todo: Possibly change this to see if MAL username is non-default
 
         if (!shownPrefs) { //if preferences have not been previously shown (ie, first launch), go directly to the settings screen
             Intent intent = new Intent(this, SettingsActivity.class); //intent for the default drop-down menu Settings button
             startActivity(intent);
         } else { //otherwise show Toast. placeholder action for now
-            Toast.makeText(getApplicationContext(), "Not first launch", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), "Not first launch", Toast.LENGTH_LONG).show();
         }
 
         //Follow block checks if user xml file exists. If it does, it populates the listview. Otherwise, do nothing
         File user = new File(main.this.getFilesDir().toString() + "/user.xml");
+
+
         if (user.exists()) {
-            Toast.makeText(getApplicationContext(), "User file exists", Toast.LENGTH_LONG).show();
             new PopulateList().execute();
         } else {
-            Toast.makeText(getApplicationContext(), "User file not found", Toast.LENGTH_LONG).show();
+            //not found conditions here
         }
+
 
 
     }

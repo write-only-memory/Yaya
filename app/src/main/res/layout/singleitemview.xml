@@ -5,13 +5,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main_layout">
 
-    <android.support.v7.widget.Toolbar
+    <include
         android:id="@+id/main_toolbar"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:fitsSystemWindows="true"
-        android:minHeight="?attr/actionBarSize"
-        android:background="?attr/colorPrimary" />
+        layout="@layout/app_bar"
+
+        />
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"

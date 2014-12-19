@@ -40,3 +40,4 @@ deploy:
   file: app/build/outputs/apk/app-debug.apk
   on:
     repo: write-only-memory/Yaya
+    all_branches: true

@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,10 +25,7 @@ import java.util.List;
 
 public class main extends ActionBarActivity {
 
-    private TextView status;
-    private List<Anime> animeList = null;
-    ListView listview;
-    ListViewAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +37,7 @@ public class main extends ActionBarActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
         NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
 
 
@@ -47,23 +46,20 @@ public class main extends ActionBarActivity {
         drawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar, shownPrefs);
         //Todo: Possibly change this to see if MAL username is non-default
 
-        if (!shownPrefs) { //if preferences have not been previously shown (ie, first launch), go directly to the settings screen
-            Intent intent = new Intent(this, SettingsActivity.class); //intent for the default drop-down menu Settings button
-            startActivity(intent);
-        } else { //otherwise show Toast. placeholder action for now
-            //Toast.makeText(getApplicationContext(), "Not first launch", Toast.LENGTH_LONG).show();
+        Intent i = getIntent();
+        if (i.getAction() == "android.intent.action.VIEW")
+        {
+            Bundle bundle = new Bundle();
+            bundle.putString("uri", i.getDataString());
+
+            playMatch play = new playMatch();
+            play.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.body, play).commit();
         }
-
-        //Follow block checks if user xml file exists. If it does, it populates the listview. Otherwise, do nothing
-        File user = new File(main.this.getFilesDir().toString() + "/user.xml");
-
-
-        if (user.exists()) {
-            new PopulateList().execute();
-        } else {
-            //not found conditions here
+        else
+        {
+            getSupportFragmentManager().beginTransaction().replace(R.id.body, new mainFragment()).commit();
         }
-
 
 
     }
@@ -91,69 +87,7 @@ public class main extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void retrieveList(View v) {
-        status = (TextView) findViewById(R.id.status); //the status info box
-        DownloadUser task = new DownloadUser();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()); //preferences object
-        String username = prefs.getString("pref_mal_username", ""); //gets the username from preferences
-        String url = "http://myanimelist.net/malappinfo.php?u=" + username + "&status=all&type=anime"; //creates a valid url
-        status.setText("Fetching data...");
 
-        task.execute(new String[]{url}); //get data asynchronously
-
-
-    }
-
-    private class PopulateList extends AsyncTask<Void, Void, Void> {
-
-        protected Void doInBackground(Void... params) {
-            XMLParser parser = new XMLParser();
-            String xml = parser.read("user.xml", main.this);
-            Document doc = parser.getDomElement(xml);
-
-            animeList = new animeList().getList(doc);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-
-            listview = (ListView) findViewById(R.id.shows);
-
-
-            adapter = new ListViewAdapter(main.this, animeList);
-
-            listview.setAdapter(adapter);
-
-            adapter.filter(1); //type 1 is currently watching
-            adapter.sortByUpdated(); //sorts the list by last updated
-            status = (TextView) findViewById(R.id.status);
-
-            status.setText("Waaaai~~"); //te-he~
-        }
-
-    }
-
-
-    private class DownloadUser extends AsyncTask<String, Void, Void> {
-
-        protected Void doInBackground(String... urls) {
-
-            for (String url : urls) {
-
-                XMLParser parser = new XMLParser();
-                parser.getXmlFromUrl(url);
-                parser.write("user.xml", main.this);
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-
-            new PopulateList().execute();
-        }
-    }
 
 
 }

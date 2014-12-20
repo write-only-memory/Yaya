@@ -25,7 +25,6 @@ public class ListViewAdapter extends BaseAdapter {
     Context context;
     LayoutInflater inflater;
 
-    ArrayList<HashMap<String, String>> data;
     private List<Anime> animeList = null;
     private ArrayList<Anime> arraylist;
 
@@ -70,23 +69,7 @@ public class ListViewAdapter extends BaseAdapter {
         holder.watched = (TextView) view.findViewById(R.id.watched);
         holder.status = (TextView) view.findViewById(R.id.list_status);
         holder.updated = (TextView) view.findViewById(R.id.updated);
-        /**
-         if (view == null)
-         {
-         holder = new ViewHolder();
-         view = inflater.inflate(R.layout.listview_item, null);
-         //Locate the TextView in listview_item.xml
-         holder.title = (TextView) view.findViewById(R.id.list_title);
-         holder.episodes = (TextView) view.findViewById(R.id.list_episodes);
-         holder.watched = (TextView) view.findViewById(R.id.watched);
-         holder.status = (TextView) view.findViewById(R.id.list_status);
-         holder.updated = (TextView) view.findViewById(R.id.updated);
-         Log.i("VIEWHOLDER","in null: " + Thread.currentThread());
-         } else {
-         holder = (ViewHolder) view.getTag();
-         Log.i("VIEWHOLDER","in else: " + Thread.currentThread());
-         }
-         */
+
         //Set the results into TextViews
         //Use String.valueOf() to convert int return types to string
         holder.title.setText(animeList.get(position).getTitle());

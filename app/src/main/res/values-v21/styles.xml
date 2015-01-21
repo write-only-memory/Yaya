@@ -1,14 +1,13 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme.Base" parent="AppTheme.Base">
+    <style name="AppTheme" parent="AppTheme.Base">
 
-        <item name="colorPrimary">@color/material_deep_teal_200</item>
-        <item name="colorPrimaryDark">@color/material_deep_teal_500</item>
+        <item name="android:colorPrimary">@color/primaryColor</item>
+        <item name="android:colorPrimaryDark">@color/primaryColorDark</item>
+        <item name="android:colorAccent">@color/accentColor</item>
 
     </style>
-
-    <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar" />
 
 
 </resources>

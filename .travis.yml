@@ -33,3 +33,13 @@ notifications:
     channel_key: '123'
     template:
       - "%{repository_name} Build #%{build_number} (%{branch} - %{commit} - %{commit_message} by %{author}): %{message}"
+deploy:
+  provider: releases
+  api_key:
+    secure: XZrg33ILc92Kkz29BmHe2yggfKq4+A7NN3EsNCFl19lB2o8oF4ETGR1QIkHlyYM6MGxr2qqMHAoJdfC17mjJNtp4cpjMmp3FRhH6WUc+epnUuAor9no51B4QUvk7Mr1cWwpcATLWNw+Qg1uen0PNErph1GXgTm0vGpNlrK83+Q8=
+  file: app/build/outputs/apk/app-debug.apk
+  skip_cleanup: true
+  on:
+    repo: write-only-memory/Yaya
+    tags: true
+    all_branches: true

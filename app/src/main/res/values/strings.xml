@@ -19,5 +19,8 @@
     <string name="updated_heading">Last updated:</string>
     <string name="not_found">Not match found</string>
     <string name="preferences">Preferences</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
 
 </resources>

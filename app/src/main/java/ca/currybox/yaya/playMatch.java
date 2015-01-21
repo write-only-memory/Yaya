@@ -11,17 +11,16 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -40,9 +39,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
-public class playMatch extends ActionBarActivity {
+public class playMatch extends Fragment {
 
     private Anime show;
     private String uri;
@@ -51,52 +49,25 @@ public class playMatch extends ActionBarActivity {
     public playMatch() {
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
 
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.play_match, container, false);
 
-            Intent intent = new Intent(this, SettingsActivity.class); //intent for the default drop-down menu Settings button
-            startActivity(intent);
-
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void onCreate(Bundle bundle) {
-        super.onCreate(bundle);
-
-        SharedPreferences firstLaunch = getSharedPreferences("FirstLaunch", Context.MODE_PRIVATE); //get object for below
+        SharedPreferences firstLaunch = super.getActivity().getSharedPreferences("FirstLaunch", Context.MODE_PRIVATE); //get object for below
         boolean shownPrefs = firstLaunch.getBoolean("HaveShownPrefs", false); //gets the value to check if application has been launched at least once
         //Todo: Possibly change this to see if MAL username is non-default
 
         if (!shownPrefs) { //if preferences have not been previously shown (ie, first launch), go directly to the settings screen
-            Intent intent = new Intent(this, SettingsActivity.class); //intent for the default drop-down menu Settings button
+            Intent intent = new Intent(super.getActivity(), SettingsActivity.class); //intent for the default drop-down menu Settings button
             startActivity(intent);
         } else { //otherwise show Toast. placeholder action for now
-            Toast.makeText(getApplicationContext(), "Not first launch", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), "Not first launch", Toast.LENGTH_LONG).show();
         }
 
-        setContentView(R.layout.activity_playmatch);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
-        setSupportActionBar(toolbar);
 
+        uri = getArguments().getString("uri");
 
-        Intent intent = getIntent(); //get initial Intent from calling app
-
-        uri = intent.getDataString(); //gets the full uri of the episode (usually a http url from a local proxy)
-
-
-        TextView filename = (TextView) findViewById(R.id.filename); //id of the textview used to show the cleaned up filename
+        TextView filename = (TextView) view.findViewById(R.id.filename); //id of the textview used to show the cleaned up filename
         filename.setText(uri); //sets the path (why is this even here? its getting replaced below...)
 
         String s4; //temporary strings to hold the niceified names
@@ -122,8 +93,8 @@ public class playMatch extends ActionBarActivity {
         filename.setText(s5); //replaces the text in the textview... stupid
         //changed all these comments
 
-        TextView titleView = (TextView) findViewById(R.id.title_view);
-        TextView episodeView = (TextView) findViewById(R.id.episode_view);
+        TextView titleView = (TextView) view.findViewById(R.id.title_view);
+        TextView episodeView = (TextView) view.findViewById(R.id.episode_view);
 
         String title = s5.substring(0, s5.lastIndexOf("-") - 1); //extracts the show title (substring from position 0 to last occurrence of "-")
         String episode = s5.substring(s5.lastIndexOf("-") + 1, s5.lastIndexOf(".")); //extracts episode number (substring from last occurrence of "-" to last occurrence of ".")
@@ -131,13 +102,13 @@ public class playMatch extends ActionBarActivity {
         episodeView.setText(episode);
 
         XMLParser parser = new XMLParser();
-        String xml = parser.read("user.xml", this);
+        String xml = parser.read("user.xml", super.getActivity());
         Document doc = parser.getDomElement(xml);
         List<Anime> animeList = new animeList().getList(doc); //reads the user xml file into memory
         title = title.replaceAll("[^!~'A-z]", ""); //gets rid of whitespaces and special characters that are not !, ~, or '
         Log.i("Detected title", title);
 
-        Button updateButton = (Button) findViewById(R.id.update_button);
+        Button updateButton = (Button) view.findViewById(R.id.update_button);
 
         //iterates through the array and checks if triggered show exists in user list
         for (int i = 0; i < animeList.size(); i++) {
@@ -145,16 +116,16 @@ public class playMatch extends ActionBarActivity {
             String listTitle = animeList.get(i).getTitle().replaceAll("[^!~'A-z]", "");
             if (title.equalsIgnoreCase(listTitle)) {
                 show = animeList.get(i);
-                TextView match = (TextView) findViewById(R.id.match_title);
+                TextView match = (TextView) view.findViewById(R.id.match_title);
                 match.setText("Filename matched with: " + animeList.get(i).getTitle());
                 updateButton.setEnabled(true);
 
-                getSupportActionBar().setTitle(show.getTitle());
+                ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(show.getTitle());
 
-                TextView mal_ep = (TextView) findViewById(R.id.mal_last_ep);
+                TextView mal_ep = (TextView) view.findViewById(R.id.mal_last_ep);
                 mal_ep.setText(String.valueOf(show.getWatched()));
 
-                TextView mal_updated = (TextView) findViewById(R.id.mal_last_update);
+                TextView mal_updated = (TextView) view.findViewById(R.id.mal_last_update);
                 String date = new SimpleDateFormat("MMM dd yyyy 'at' KK:mm:ss a").format(new Date(show.getUpdated() * 1000L));
                 mal_updated.setText(date);
 
@@ -164,16 +135,16 @@ public class playMatch extends ActionBarActivity {
                     synonym = synonym.replaceAll("[^!~'A-z]", "");
                     if (title.equalsIgnoreCase(synonym)) {
                         show = animeList.get(i);
-                        TextView match = (TextView) findViewById(R.id.match_title);
+                        TextView match = (TextView) view.findViewById(R.id.match_title);
                         match.setText("Match found: " + animeList.get(i).getTitle());
                         updateButton.setEnabled(true);
 
-                        getSupportActionBar().setTitle(show.getTitle());
+                        ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(show.getTitle());
 
-                        TextView mal_ep = (TextView) findViewById(R.id.mal_last_ep);
+                        TextView mal_ep = (TextView) view.findViewById(R.id.mal_last_ep);
                         mal_ep.setText(String.valueOf(show.getWatched()));
 
-                        TextView mal_updated = (TextView) findViewById(R.id.mal_last_update);
+                        TextView mal_updated = (TextView) view.findViewById(R.id.mal_last_update);
                         String date = new SimpleDateFormat("MMM dd yyyy 'at' KK:mm:ss a").format(new Date(show.getUpdated() * 1000L));
                         mal_updated.setText(date);
 
@@ -184,7 +155,7 @@ public class playMatch extends ActionBarActivity {
 
         }
 
-
+        return view;
     }
 
     public void playFile(View v) {
@@ -199,18 +170,17 @@ public class playMatch extends ActionBarActivity {
     public void update(View v) {
         show.setWatched(show.getWatched() + 1); //increment watched episode
 
-        if (show.getWatched() == show.getEpisodes())
-        {
+        if (show.getWatched() == show.getEpisodes()) {
             show.setStatus(2); //if watched = total, change status from watching to completed
 
             //get current date and set as date completed
             String date = new SimpleDateFormat("MMddyyyy").format(Calendar.getInstance().getTime());
-            Log.i("Date",date);
+            Log.i("Date", date);
             show.setDateFinished(date);
         }
 
         updateMal updater = new updateMal();
-        TextView status = (TextView) findViewById(R.id.update_status);
+        TextView status = (TextView) super.getActivity().findViewById(R.id.update_status);
         status.setText("Starting update...");
         updater.execute();
     }
@@ -219,7 +189,7 @@ public class playMatch extends ActionBarActivity {
         protected String doInBackground(Void... urls) {
             String result = "";
             try {
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()); //preferences object
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity()); //preferences object
                 String creds = prefs.getString("pref_mal_username", "a") + ":" + prefs.getString("pref_mal_password", "a"); //set credentials
 
 
@@ -247,28 +217,28 @@ public class playMatch extends ActionBarActivity {
         }
 
         protected void onPostExecute(String result) {
-            TextView status = (TextView) findViewById(R.id.update_status);
+            TextView status = (TextView) getActivity().findViewById(R.id.update_status);
             status.setText("Reply from server: " + result);
             if (result.equalsIgnoreCase("updated")) {
                 XMLParser parser = new XMLParser();
 
-                Button updateButton = (Button) findViewById(R.id.update_button);
+                Button updateButton = (Button) getActivity().findViewById(R.id.update_button);
                 updateButton.setEnabled(false); //disable update button on successful previous update
 
                 //re-downloads animelist from MAL after successful list update (this is stupid inefficient, but blame MAL's lack of proper API
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()); //preferences object
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity()); //preferences object
                 String username = prefs.getString("pref_mal_username", ""); //gets the username from preferences
                 String url = "http://myanimelist.net/malappinfo.php?u=" + username + "&status=all&type=anime"; //creates a valid url
                 new downloadUser().execute(url);
 
-                TextView last_ep = (TextView) findViewById(R.id.mal_last_ep);
+                TextView last_ep = (TextView) getActivity().findViewById(R.id.mal_last_ep);
                 last_ep.setText(String.valueOf(show.getWatched()));
 
-                final TextView updated = (TextView) findViewById(R.id.mal_last_update);
+                final TextView updated = (TextView) getActivity().findViewById(R.id.mal_last_update);
                 updated.setText("Just now...");
-                updated.startAnimation(AnimationUtils.loadAnimation(playMatch.this, R.anim.slide_down));
+                updated.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slide_down));
 
-                last_ep.startAnimation(AnimationUtils.loadAnimation(playMatch.this, R.anim.slide_down));
+                last_ep.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slide_down));
 
 
             }
@@ -280,7 +250,7 @@ public class playMatch extends ActionBarActivity {
             for (String url : urls) {
                 XMLParser parser = new XMLParser();
                 parser.getXmlFromUrl(url);
-                parser.write("user.xml", playMatch.this);
+                parser.write("user.xml", getActivity());
             }
             return null;
         }

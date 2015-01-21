@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
 
     <include
         android:id="@+id/main_toolbar"
@@ -14,21 +11,27 @@
 
         />
 
-    <android.support.v4.widget.DrawerLayout
+    <android.support.v4.widget.DrawerLayout xmlns:app="http://schemas.android.com/apk/res-auto"
 
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/body"></RelativeLayout>
 
         <fragment
             android:id="@+id/navigation_drawer"
             android:name="ca.currybox.yaya.NavigationDrawerFragment"
+            tools:layout="@layout/fragment_navigation_drawer"
             android:layout_width="@dimen/navdrawer_width"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            app:layout="@layout/fragment_navigation_drawer"
-            tools:layout="@layout/fragment_navigation_drawer" />
+            app:layout="@layout/fragment_navigation_drawer" />
+
+
     </android.support.v4.widget.DrawerLayout>
 
 </LinearLayout>

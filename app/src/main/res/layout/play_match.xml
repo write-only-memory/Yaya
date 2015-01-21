@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/main_info_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:id="@+id/filename_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/filename" />
+
+            <TextView
+                android:id="@+id/filename"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/filename_heading"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/filename_heading" />
+
+
+            <TextView
+                android:id="@+id/title_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/filename_heading"
+                android:layout_below="@+id/filename_heading"
+                android:layout_column="0"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_row="0"
+                android:autoText="false"
+                android:text="@string/title_heading"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/episode_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/filename_heading"
+                android:layout_below="@+id/title_heading"
+                android:layout_column="0"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_row="1"
+                android:text="@string/episode_heading"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/title_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/title_heading"
+                android:layout_column="1"
+                android:layout_row="0"
+                android:layout_toRightOf="@+id/filename"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/episode_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/filename"
+                android:layout_alignTop="@+id/episode_heading"
+                android:layout_column="1"
+                android:layout_row="1"
+                android:visibility="gone" />
+
+
+            <Button
+                android:id="@+id/play_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/update_button"
+                android:layout_toEndOf="@+id/update_button"
+                android:layout_toRightOf="@+id/update_button"
+                android:onClick="playFile"
+                android:text="@string/play_mx" />
+
+            <TextView
+                android:id="@+id/match_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/episode_heading"
+                android:layout_alignStart="@+id/episode_heading"
+                android:layout_below="@+id/episode_heading"
+                android:layout_marginTop="22dp"
+                android:text="@string/not_found" />
+
+            <Button
+                android:id="@+id/update_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/match_title"
+                android:layout_alignStart="@+id/match_title"
+                android:layout_below="@+id/match_title"
+                android:layout_marginTop="74dp"
+                android:enabled="false"
+                android:onClick="update"
+                android:text="Update MAL" />
+
+            <TextView
+                android:id="@+id/update_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/update_button"
+                android:layout_alignStart="@+id/update_button"
+                android:layout_below="@+id/update_button"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:id="@+id/mal_last_ep_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/match_title"
+                android:layout_alignStart="@+id/match_title"
+                android:layout_below="@+id/match_title"
+                android:layout_marginTop="20dp"
+                android:text="Last updated episode:" />
+
+            <TextView
+                android:id="@+id/mal_last_ep"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/mal_last_ep_heading"
+                android:layout_marginLeft="10dp"
+                android:layout_toEndOf="@+id/mal_last_ep_heading"
+                android:layout_toRightOf="@+id/mal_last_ep_heading" />
+
+            <TextView
+                android:id="@+id/mal_last_update_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/mal_last_ep_heading"
+                android:layout_alignStart="@+id/mal_last_ep_heading"
+                android:layout_below="@+id/mal_last_ep_heading"
+                android:text="Last updated on:" />
+
+            <TextView
+                android:id="@+id/mal_last_update"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/mal_last_ep"
+                android:layout_alignStart="@+id/mal_last_ep"
+                android:layout_alignTop="@+id/mal_last_update_heading" />
+        </RelativeLayout>
+    </FrameLayout>
+
+</LinearLayout>

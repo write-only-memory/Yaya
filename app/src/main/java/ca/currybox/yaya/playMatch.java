@@ -67,7 +67,7 @@ public class playMatch extends Fragment {
 
         uri = getArguments().getString("uri");
 
-        TextView filename = (TextView) super.getActivity().findViewById(R.id.filename); //id of the textview used to show the cleaned up filename
+        TextView filename = (TextView) view.findViewById(R.id.filename); //id of the textview used to show the cleaned up filename
         filename.setText(uri); //sets the path (why is this even here? its getting replaced below...)
 
         String s4; //temporary strings to hold the niceified names
@@ -93,8 +93,8 @@ public class playMatch extends Fragment {
         filename.setText(s5); //replaces the text in the textview... stupid
         //changed all these comments
 
-        TextView titleView = (TextView) super.getActivity().findViewById(R.id.title_view);
-        TextView episodeView = (TextView) super.getActivity().findViewById(R.id.episode_view);
+        TextView titleView = (TextView) view.findViewById(R.id.title_view);
+        TextView episodeView = (TextView) view.findViewById(R.id.episode_view);
 
         String title = s5.substring(0, s5.lastIndexOf("-") - 1); //extracts the show title (substring from position 0 to last occurrence of "-")
         String episode = s5.substring(s5.lastIndexOf("-") + 1, s5.lastIndexOf(".")); //extracts episode number (substring from last occurrence of "-" to last occurrence of ".")
@@ -108,7 +108,7 @@ public class playMatch extends Fragment {
         title = title.replaceAll("[^!~'A-z]", ""); //gets rid of whitespaces and special characters that are not !, ~, or '
         Log.i("Detected title", title);
 
-        Button updateButton = (Button) super.getActivity().findViewById(R.id.update_button);
+        Button updateButton = (Button) view.findViewById(R.id.update_button);
 
         //iterates through the array and checks if triggered show exists in user list
         for (int i = 0; i < animeList.size(); i++) {
@@ -116,16 +116,16 @@ public class playMatch extends Fragment {
             String listTitle = animeList.get(i).getTitle().replaceAll("[^!~'A-z]", "");
             if (title.equalsIgnoreCase(listTitle)) {
                 show = animeList.get(i);
-                TextView match = (TextView) super.getActivity().findViewById(R.id.match_title);
+                TextView match = (TextView) view.findViewById(R.id.match_title);
                 match.setText("Filename matched with: " + animeList.get(i).getTitle());
                 updateButton.setEnabled(true);
 
                 ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(show.getTitle());
 
-                TextView mal_ep = (TextView) super.getActivity().findViewById(R.id.mal_last_ep);
+                TextView mal_ep = (TextView) view.findViewById(R.id.mal_last_ep);
                 mal_ep.setText(String.valueOf(show.getWatched()));
 
-                TextView mal_updated = (TextView) super.getActivity().findViewById(R.id.mal_last_update);
+                TextView mal_updated = (TextView) view.findViewById(R.id.mal_last_update);
                 String date = new SimpleDateFormat("MMM dd yyyy 'at' KK:mm:ss a").format(new Date(show.getUpdated() * 1000L));
                 mal_updated.setText(date);
 
@@ -135,16 +135,16 @@ public class playMatch extends Fragment {
                     synonym = synonym.replaceAll("[^!~'A-z]", "");
                     if (title.equalsIgnoreCase(synonym)) {
                         show = animeList.get(i);
-                        TextView match = (TextView) super.getActivity().findViewById(R.id.match_title);
+                        TextView match = (TextView) view.findViewById(R.id.match_title);
                         match.setText("Match found: " + animeList.get(i).getTitle());
                         updateButton.setEnabled(true);
 
                         ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(show.getTitle());
 
-                        TextView mal_ep = (TextView) super.getActivity().findViewById(R.id.mal_last_ep);
+                        TextView mal_ep = (TextView) view.findViewById(R.id.mal_last_ep);
                         mal_ep.setText(String.valueOf(show.getWatched()));
 
-                        TextView mal_updated = (TextView) super.getActivity().findViewById(R.id.mal_last_update);
+                        TextView mal_updated = (TextView) view.findViewById(R.id.mal_last_update);
                         String date = new SimpleDateFormat("MMM dd yyyy 'at' KK:mm:ss a").format(new Date(show.getUpdated() * 1000L));
                         mal_updated.setText(date);
 

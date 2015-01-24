@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.apache.http.HttpResponse;
@@ -40,7 +41,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class playMatch extends Fragment implements View.OnClickListener{
+public class playMatch extends Fragment implements View.OnClickListener {
 
     private Anime show;
     private String uri;
@@ -119,7 +120,8 @@ public class playMatch extends Fragment implements View.OnClickListener{
         Button updateButton = (Button) view.findViewById(R.id.update_button);
 
         //iterates through the array and checks if triggered show exists in user list
-        for (int i = 0; i < animeList.size(); i++) {
+        boolean found = false;
+        for (int i = 0; i < animeList.size() && !found; i++) {
             String[] synonyms = animeList.get(i).getSynonyms().split(";");
             String listTitle = animeList.get(i).getTitle().replaceAll("[^!~'A-z]", "");
             if (title.equalsIgnoreCase(listTitle)) {
@@ -137,7 +139,7 @@ public class playMatch extends Fragment implements View.OnClickListener{
                 String date = new SimpleDateFormat("MMM dd yyyy 'at' KK:mm:ss a").format(new Date(show.getUpdated() * 1000L));
                 mal_updated.setText(date);
 
-                break;
+                found = true;
             } else {
                 for (String synonym : synonyms) {
                     synonym = synonym.replaceAll("[^!~'A-z]", "");
@@ -156,11 +158,16 @@ public class playMatch extends Fragment implements View.OnClickListener{
                         String date = new SimpleDateFormat("MMM dd yyyy 'at' KK:mm:ss a").format(new Date(show.getUpdated() * 1000L));
                         mal_updated.setText(date);
 
-                        break;
+                        found = true;
                     }
                 }
             }
 
+        }
+
+        if (!found) {
+            RelativeLayout custom_name_layout = (RelativeLayout) view.findViewById(R.id.custom_naming_container);
+            custom_name_layout.setVisibility(View.VISIBLE);
         }
 
         return view;
@@ -172,10 +179,8 @@ public class playMatch extends Fragment implements View.OnClickListener{
      * Handles the on screen buttons
      */
 
-    public void onClick(View V)
-    {
-        switch (V.getId())
-        {
+    public void onClick(View V) {
+        switch (V.getId()) {
             case R.id.update_button:
                 update();
                 break;
@@ -195,6 +200,7 @@ public class playMatch extends Fragment implements View.OnClickListener{
     }
 
     public void update() {
+
         show.setWatched(show.getWatched() + 1); //increment watched episode
 
         if (show.getWatched() == show.getEpisodes()) {
@@ -205,6 +211,13 @@ public class playMatch extends Fragment implements View.OnClickListener{
             Log.i("Date", date);
             show.setDateFinished(date);
         }
+
+        show.setStatus(1); //move to currently watching
+
+        String date = new SimpleDateFormat("MMddyyyy").format(Calendar.getInstance().getTime());
+        Log.i("Date", date);
+        show.setDateStarted(date);
+
 
         updateMal updater = new updateMal();
         TextView status = (TextView) super.getActivity().findViewById(R.id.update_status);

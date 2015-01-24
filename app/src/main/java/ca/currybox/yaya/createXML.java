@@ -31,6 +31,10 @@ public class createXML {
             serializer.text(String.valueOf(show.getStatus()));
             serializer.endTag("", "status");
 
+            serializer.startTag("", "date_start");
+            serializer.text(String.valueOf(show.getDateStarted()));
+            serializer.endTag("", "date_start");
+
             serializer.startTag("", "date_finish");
             serializer.text(String.valueOf(show.getDateFinished()));
             serializer.endTag("", "date_finish");

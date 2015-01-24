@@ -13,6 +13,7 @@ public class Anime {
     private int updated;
     private int id;
     private String dateFinished;
+    private String dateStarted;
 
     public String getTitle() {
         return title;
@@ -78,5 +79,15 @@ public class Anime {
     public void setDateFinished(String date)
     {
         dateFinished = date;
+    }
+
+    public String getDateStarted()
+    {
+        return dateStarted;
+    }
+
+    public void setDateStarted(String date)
+    {
+        dateStarted = date;
     }
 }

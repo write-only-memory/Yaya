@@ -40,7 +40,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class playMatch extends Fragment {
+public class playMatch extends Fragment implements View.OnClickListener{
 
     private Anime show;
     private String uri;
@@ -52,6 +52,14 @@ public class playMatch extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.play_match, container, false);
+
+        /**
+         * Following block is required for onclick handlers for buttons and such
+         */
+        Button update = (Button) view.findViewById(R.id.update_button);
+        Button play = (Button) view.findViewById(R.id.play_button);
+        update.setOnClickListener(this);
+        play.setOnClickListener(this);
 
         SharedPreferences firstLaunch = super.getActivity().getSharedPreferences("FirstLaunch", Context.MODE_PRIVATE); //get object for below
         boolean shownPrefs = firstLaunch.getBoolean("HaveShownPrefs", false); //gets the value to check if application has been launched at least once
@@ -158,7 +166,26 @@ public class playMatch extends Fragment {
         return view;
     }
 
-    public void playFile(View v) {
+    @Override
+
+    /**
+     * Handles the on screen buttons
+     */
+
+    public void onClick(View V)
+    {
+        switch (V.getId())
+        {
+            case R.id.update_button:
+                update();
+                break;
+            case R.id.play_button:
+                playFile();
+                break;
+        }
+    }
+
+    public void playFile() {
         Intent intent = new Intent(Intent.ACTION_VIEW);
 
         Uri videoUri = Uri.parse(uri);
@@ -167,7 +194,7 @@ public class playMatch extends Fragment {
         startActivity(intent);
     }
 
-    public void update(View v) {
+    public void update() {
         show.setWatched(show.getWatched() + 1); //increment watched episode
 
         if (show.getWatched() == show.getEpisodes()) {

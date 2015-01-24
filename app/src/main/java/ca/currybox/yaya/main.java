@@ -47,6 +47,13 @@ public class main extends ActionBarActivity {
         //Todo: Possibly change this to see if MAL username is non-default
 
         Intent i = getIntent();
+
+        /**
+         * Launch correct fragment based on calling intent.
+         * IE: Launch the file match fragment if a video file is played,
+         * otherwise launch the main app view
+         */
+
         if (i.getAction() == "android.intent.action.VIEW")
         {
             Bundle bundle = new Bundle();

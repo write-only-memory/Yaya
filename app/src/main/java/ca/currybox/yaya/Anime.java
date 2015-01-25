@@ -1,9 +1,11 @@
 package ca.currybox.yaya;
 
+import java.io.Serializable;
+
 /**
  * Created by write_only_memory on 10/3/2014.
  */
-public class Anime {
+public class Anime implements Serializable{
 
     private String title;
     private String synonyms;

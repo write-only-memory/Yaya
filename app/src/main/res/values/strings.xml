@@ -9,7 +9,7 @@
     <string name="mal_username">Your MyAnimeList.net username</string>
     <string name="mal_default_username">Your username</string>
     <string name="title_heading">Title:</string>
-    <string name="episode_heading">Episode:</string>
+    <string name="episode_heading">Watched:</string>
     <string name="filename">Filename:</string>
     <string name="uri">URI:</string>
     <string name="play_mx">Play with MX Player</string>

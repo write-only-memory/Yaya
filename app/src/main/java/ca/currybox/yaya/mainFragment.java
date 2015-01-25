@@ -20,6 +20,8 @@ import android.widget.Toast;
 import org.w3c.dom.Document;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.util.List;
 
 /**
@@ -40,6 +42,14 @@ public class mainFragment extends Fragment{
         boolean shownPrefs = firstLaunch.getBoolean("HaveShownPrefs", false); //gets the value to check if application has been launched at least once
 
         if (!shownPrefs) { //if preferences have not been previously shown (ie, first launch), go directly to the settings screen
+            File file = new File(getActivity().getApplicationContext().getFilesDir(), "custom-names.dat");
+            try {
+                file.createNewFile();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
             Intent intent = new Intent(super.getActivity(), SettingsActivity.class); //intent for the default drop-down menu Settings button
             startActivity(intent);
         } else { //otherwise show Toast. placeholder action for now

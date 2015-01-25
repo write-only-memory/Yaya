@@ -8,5 +8,7 @@
         android:background="@color/primaryColor"
         >
 
+
+
         </android.support.v7.widget.Toolbar>
 

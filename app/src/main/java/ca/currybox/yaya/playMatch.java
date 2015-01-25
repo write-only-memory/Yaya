@@ -169,7 +169,7 @@ public class playMatch extends Fragment implements View.OnClickListener {
         if (!found) {
             RelativeLayout custom_name_layout = (RelativeLayout) view.findViewById(R.id.custom_naming_container);
             //custom_name_layout.setVisibility(View.VISIBLE);
-            super.getFragmentManager().beginTransaction().replace(R.id.custom_holder, new mainFragment()).commit();
+            super.getFragmentManager().beginTransaction().replace(R.id.custom_holder, new animeListView()).commit();
         }
 
         return view;

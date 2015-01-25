@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -11,7 +12,6 @@
             android:id="@+id/toolbar_wrapper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
 
 
         </RelativeLayout>
@@ -36,46 +36,15 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/intro_text" />
 
-            <Button
-                android:id="@+id/retrieve_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/intro_textbox"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
-
-                android:text="Download latest info from MAL" />
-
-            <TextView
-                android:id="@+id/status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/retrieve_button"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
-                android:text="Click the button to get started" />
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/main_list"
-            android:layout_below="@id/status"
-            android:layout_marginTop="20dp"
-            >
-
-            </RelativeLayout>
-            <android.support.v4.widget.SwipeRefreshLayout
-                android:id="@+id/anime_list_refresh"
+            <RelativeLayout
+                android:id="@+id/main_list"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/status"
-                android:layout_marginTop="20dp"
-                android:layout_centerHorizontal="true">
-                <ListView
-                    android:id="@+id/shows"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Nothing yet" />
-            </android.support.v4.widget.SwipeRefreshLayout>
+                android:layout_below="@id/intro_textbox"
+                android:layout_marginTop="20dp">
+
+            </RelativeLayout>
+
         </RelativeLayout>
     </FrameLayout>
 

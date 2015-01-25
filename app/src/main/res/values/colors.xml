@@ -5,4 +5,8 @@
     <color name="primaryColorDark">#303F9F</color>
     <color name="accentColor">#F44336</color>
 
+    <color name="orange">#FF9900</color>
+    <color name="green">#009900</color>
+    <color name="blue">#000099</color>
+
 </resources>

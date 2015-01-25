@@ -54,16 +54,28 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:text="Click the button to get started" />
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/main_list"
+            android:layout_below="@id/status"
+            android:layout_marginTop="20dp"
+            >
 
-            <ListView
-                android:id="@+id/shows"
+            </RelativeLayout>
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/anime_list_refresh"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/status"
-                android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
-                android:text="Nothing yet" />
-
+                android:layout_centerHorizontal="true">
+                <ListView
+                    android:id="@+id/shows"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Nothing yet" />
+            </android.support.v4.widget.SwipeRefreshLayout>
         </RelativeLayout>
     </FrameLayout>
 

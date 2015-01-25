@@ -3,6 +3,7 @@ package ca.currybox.yaya;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -63,7 +64,7 @@ public class XMLParser {
     }
 
     public String read(String filename, Context ctx) {
-        return readfile(filename, ctx);
+            return readfile(filename, ctx);
     }
 
     public Document getDomElement(String xml) {
@@ -138,6 +139,8 @@ public class XMLParser {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
+
+        Log.i("Orientation crash", "here");
         return datax.toString();
     }
 }

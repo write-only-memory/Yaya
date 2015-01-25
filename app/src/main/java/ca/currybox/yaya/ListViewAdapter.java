@@ -1,11 +1,14 @@
 package ca.currybox.yaya;
 
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -84,6 +87,9 @@ public class ListViewAdapter extends BaseAdapter {
 
                 //Send single item click data to SingleItemView class
                 Intent intent = new Intent(context, SingleItemView.class);
+
+
+
                 //Pass all data title
                 intent.putExtra("title", (animeList.get(position).getTitle()));
                 //Pass all data episodes

@@ -93,7 +93,7 @@ public class mainFragment extends Fragment implements View.OnClickListener {
 
         protected Void doInBackground(Void... params) {
             XMLParser parser = new XMLParser();
-            String xml = parser.read("user.xml", mainFragment.super.getActivity());
+            String xml = parser.read("user.xml", getActivity());
             Document doc = parser.getDomElement(xml);
 
             animeList = new animeList().getList(doc);

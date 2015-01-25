@@ -156,14 +156,18 @@
                 android:layout_alignLeft="@+id/mal_last_ep"
                 android:layout_alignStart="@+id/mal_last_ep"
                 android:layout_alignTop="@+id/mal_last_update_heading" />
-
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/custom_holder"
+                android:layout_alignLeft="@id/update_button"
+                android:layout_below="@id/update_button"
+                android:layout_marginTop="20dp">
             <RelativeLayout
                 android:id="@+id/custom_naming_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@id/update_button"
-                android:layout_below="@id/update_button"
-                android:layout_marginTop="20dp"
+
                 android:visibility="gone">
 
                 <TextView
@@ -180,6 +184,7 @@
                     android:hint="Enter a custom show title here" />
 
             </RelativeLayout>
+                </RelativeLayout>
         </RelativeLayout>
     </FrameLayout>
 

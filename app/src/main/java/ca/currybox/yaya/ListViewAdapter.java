@@ -101,6 +101,8 @@ public class ListViewAdapter extends BaseAdapter {
                 //Pass all data updated
                 intent.putExtra("updated", (animeList.get(position).getUpdated()));
 
+                intent.putExtra("show", animeList.get(position));
+
                 //Start activity
                 context.startActivity(intent);
 

@@ -3,7 +3,7 @@ package ca.currybox.yaya;
 import java.io.Serializable;
 
 /**
- * Created by write_only_memory on 10/3/2014.
+ * Created by write-only-memory on 10/3/2014.
  */
 public class Anime implements Serializable{
 
@@ -16,6 +16,8 @@ public class Anime implements Serializable{
     private int id;
     private String dateFinished;
     private String dateStarted;
+
+    private static final long serialVersionUID = 1L;
 
     public String getTitle() {
         return title;
@@ -30,7 +32,7 @@ public class Anime implements Serializable{
     }
 
     public void setSynonyms(String synonyms) {
-        this.synonyms = synonyms;
+        this.synonyms = this.synonyms + ";" + synonyms;
     }
 
     public int getEpisodes() {
@@ -91,5 +93,18 @@ public class Anime implements Serializable{
     public void setDateStarted(String date)
     {
         dateStarted = date;
+    }
+
+    public void copy(Anime show)
+    {
+        this.title = show.title;
+        this.synonyms = show.synonyms;
+        this.episodes = show.episodes;
+        this.watched = show.watched;
+        this.status = show.status;
+        this.updated = show.updated;
+        this.id = show.id;
+        this.dateStarted = show.dateStarted;
+        this.dateFinished = show.dateFinished;
     }
 }

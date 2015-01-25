@@ -166,6 +166,41 @@ public class playMatch extends Fragment implements View.OnClickListener {
 
         }
 
+        if (!found)
+        {
+            customNames customList = new customNames();
+            List<Anime> customTitles = customList.getCustomList(view.getContext());
+
+            for (int i = 0; i < customTitles.size(); i++)
+            {
+                String[] synonyms = customTitles.get(i).getSynonyms().split(";");
+                for (String synonym : synonyms)
+                {
+                    if (title.equalsIgnoreCase(synonym))
+                    {
+                        show = customTitles.get(i);
+
+                        TextView match = (TextView) view.findViewById(R.id.match_title);
+                        match.setText("Match found: " + show.getTitle());
+                        updateButton.setEnabled(true);
+
+                        ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(show.getTitle());
+
+                        TextView mal_ep = (TextView) view.findViewById(R.id.mal_last_ep);
+                        mal_ep.setText(String.valueOf(show.getWatched()));
+
+                        TextView mal_updated = (TextView) view.findViewById(R.id.mal_last_update);
+                        String date = new SimpleDateFormat("MMM dd yyyy 'at' KK:mm:ss a").format(new Date(show.getUpdated() * 1000L));
+                        mal_updated.setText(date);
+
+                        found = true;
+                    }
+                }
+            }
+
+
+        }
+
         if (!found) {
             RelativeLayout custom_name_layout = (RelativeLayout) view.findViewById(R.id.custom_naming_container);
             //custom_name_layout.setVisibility(View.VISIBLE);

@@ -1,39 +1,24 @@
 package ca.currybox.yaya;
 
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Document;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.util.List;
 
 /**
  * Created by Kanchana on 12/19/2014.
  */
-public class mainFragment extends Fragment{
+public class mainFragment extends Fragment {
 
 
-
-
-    public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.main_layout, container, false);
 
         super.getFragmentManager().beginTransaction().replace(R.id.main_list, new animeListView()).commit();
@@ -45,9 +30,7 @@ public class mainFragment extends Fragment{
             File file = new File(getActivity().getApplicationContext().getFilesDir(), "custom-names.dat");
             try {
                 file.createNewFile();
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             Intent intent = new Intent(super.getActivity(), SettingsActivity.class); //intent for the default drop-down menu Settings button

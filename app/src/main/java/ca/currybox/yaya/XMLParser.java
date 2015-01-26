@@ -3,7 +3,6 @@ package ca.currybox.yaya;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -33,6 +32,17 @@ import javax.xml.parsers.ParserConfigurationException;
 public class XMLParser {
 
     String xml = null;
+
+    private static void save(String filename, String data, Context ctx) {
+        FileOutputStream outputStream;
+        try {
+            outputStream = ctx.openFileOutput(filename, Context.MODE_PRIVATE);
+            outputStream.write(data.getBytes());
+            outputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public void getXmlFromUrl(String url) {
 
@@ -64,7 +74,7 @@ public class XMLParser {
     }
 
     public String read(String filename, Context ctx) {
-            return readfile(filename, ctx);
+        return readfile(filename, ctx);
     }
 
     public Document getDomElement(String xml) {
@@ -109,17 +119,6 @@ public class XMLParser {
             }
         }
         return "";
-    }
-
-    private static void save(String filename, String data, Context ctx) {
-        FileOutputStream outputStream;
-        try {
-            outputStream = ctx.openFileOutput(filename, Context.MODE_PRIVATE);
-            outputStream.write(data.getBytes());
-            outputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     private String readfile(String filename, Context ctx) {

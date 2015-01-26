@@ -1,14 +1,11 @@
 package ca.currybox.yaya;
 
-import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -16,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -37,14 +33,6 @@ public class ListViewAdapter extends BaseAdapter {
         inflater = LayoutInflater.from(context);
         this.arraylist = new ArrayList<Anime>();
         this.arraylist.addAll(animeList);
-    }
-
-    public class ViewHolder {
-        TextView title;
-        TextView episodes;
-        TextView watched;
-        TextView updated;
-        TextView status;
     }
 
     @Override
@@ -87,7 +75,6 @@ public class ListViewAdapter extends BaseAdapter {
 
                 //Send single item click data to SingleItemView class
                 Intent intent = new Intent(context, SingleItemView.class);
-
 
 
                 //Pass all data title
@@ -134,6 +121,14 @@ public class ListViewAdapter extends BaseAdapter {
         };
         Collections.sort(animeList, comparator);
         notifyDataSetChanged();
+    }
+
+    public class ViewHolder {
+        TextView title;
+        TextView episodes;
+        TextView watched;
+        TextView updated;
+        TextView status;
     }
 
 

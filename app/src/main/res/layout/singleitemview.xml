@@ -86,37 +86,45 @@
             android:layout_below="@id/status_label"/>
 
         <TextView
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_below="@id/updated"
             android:layout_marginTop="20dp"
             android:text="LEL"
-            android:id="@+id/test_field"/>
+            android:id="@+id/list_custom_names"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="READ"
-            android:layout_below="@id/test_field"
+            android:layout_below="@id/list_custom_names"
             android:layout_marginTop="20dp"
+            android:visibility="gone"
             android:id="@+id/read"/>
-        <Button
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="WRITE"
-            android:layout_toRightOf="@id/read"
-            android:layout_below="@id/test_field"
+            android:layout_below="@id/read"
+            android:text="Enter custom names below, separated by a semicolon"
             android:layout_marginTop="20dp"
-            android:id="@+id/write"/>
+            android:id="@+id/syn_helper"/>
 
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:hint="Synonyms"
-            android:layout_below="@id/read"
+            android:layout_below="@id/syn_helper"
             android:layout_marginTop="20dp"
             android:id="@+id/synonyms"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set Synonyms"
+            android:layout_below="@id/synonyms"
+            android:layout_marginTop="20dp"
+            android:id="@+id/write"/>
 
 
     </RelativeLayout>

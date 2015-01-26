@@ -14,37 +14,32 @@ import java.util.List;
  */
 public class customNames {
 
-    public void write (List<Anime> shows, Context ctx)
-    {
-        try
-        {
+    public void write(List<Anime> shows, Context ctx) {
+        try {
             FileOutputStream fos = ctx.openFileOutput("custom-names.dat", Context.MODE_PRIVATE);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(shows);
             oos.close();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public List<Anime> getCustomList (Context ctx)
-    {
+    public List<Anime> getCustomList(Context ctx) {
         List<Anime> customList;
-        try
-        {
+        try {
             FileInputStream fis = ctx.openFileInput("custom-names.dat");
             ObjectInputStream ois = new ObjectInputStream(fis);
             customList = (List<Anime>) ois.readObject();
             ois.close();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             customList = null;
             e.printStackTrace();
         }
         Log.i("reader", "done");
+        if (customList == null) {
+            //customList =
+        }
         return customList;
 
     }

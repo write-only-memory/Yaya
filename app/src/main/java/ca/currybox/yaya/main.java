@@ -3,28 +3,15 @@ package ca.currybox.yaya;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Document;
-
-import java.io.File;
-import java.util.List;
 
 
 public class main extends ActionBarActivity {
-
 
 
     @Override
@@ -54,17 +41,14 @@ public class main extends ActionBarActivity {
          * otherwise launch the main app view
          */
 
-        if (i.getAction() == "android.intent.action.VIEW")
-        {
+        if (i.getAction() == "android.intent.action.VIEW") {
             Bundle bundle = new Bundle();
             bundle.putString("uri", i.getDataString());
 
             playMatch play = new playMatch();
             play.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().replace(R.id.body, play).commit();
-        }
-        else
-        {
+        } else {
             getSupportFragmentManager().beginTransaction().replace(R.id.body, new mainFragment()).commit();
         }
 
@@ -93,8 +77,6 @@ public class main extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 
 
 }

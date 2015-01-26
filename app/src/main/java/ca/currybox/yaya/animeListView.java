@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import org.w3c.dom.Document;
 
@@ -24,10 +23,10 @@ import java.util.List;
 public class animeListView extends Fragment {
 
 
-    private List<Anime> animeList = null;
     ListView listview;
     ListViewAdapter adapter;
     SwipeRefreshLayout swipeRefreshLayout;
+    private List<Anime> animeList = null;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.anime_list, container, false);
@@ -64,6 +63,18 @@ public class animeListView extends Fragment {
         return view;
     }
 
+    public void updateListView() {
+        listview = (ListView) getActivity().findViewById(R.id.shows);
+
+
+        adapter = new ListViewAdapter(getActivity(), animeList);
+
+        listview.setAdapter(adapter);
+
+        adapter.filter(1); //type 1 is currently watching
+        adapter.sortByUpdated(); //sorts the list by last updated
+    }
+
     private class PopulateList extends AsyncTask<Void, Void, Void> {
 
         protected Void doInBackground(Void... params) {
@@ -78,16 +89,8 @@ public class animeListView extends Fragment {
         @Override
         protected void onPostExecute(Void result) {
 
-            listview = (ListView) getActivity().findViewById(R.id.shows);
 
-
-            adapter = new ListViewAdapter(getActivity(), animeList);
-
-            listview.setAdapter(adapter);
-
-            adapter.filter(1); //type 1 is currently watching
-            adapter.sortByUpdated(); //sorts the list by last updated
-
+            updateListView();
 
             swipeRefreshLayout.setRefreshing(false);
 
@@ -95,7 +98,6 @@ public class animeListView extends Fragment {
         }
 
     }
-
 
     private class DownloadUser extends AsyncTask<String, Void, Void> {
 

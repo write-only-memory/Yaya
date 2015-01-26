@@ -5,10 +5,12 @@ import java.io.Serializable;
 /**
  * Created by write-only-memory on 10/3/2014.
  */
-public class Anime implements Serializable{
+public class Anime implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private String title;
     private String synonyms;
+    private String custom_synonyms;
     private int episodes;
     private int watched;
     private int status;
@@ -16,8 +18,6 @@ public class Anime implements Serializable{
     private int id;
     private String dateFinished;
     private String dateStarted;
-
-    private static final long serialVersionUID = 1L;
 
     public String getTitle() {
         return title;
@@ -32,7 +32,15 @@ public class Anime implements Serializable{
     }
 
     public void setSynonyms(String synonyms) {
-        this.synonyms = this.synonyms + ";" + synonyms;
+        this.synonyms = synonyms;
+    }
+
+    public String getCustom_synonyms() {
+        return custom_synonyms;
+    }
+
+    public void setCustom_synonyms(String synonyms) {
+        this.custom_synonyms = synonyms;
     }
 
     public int getEpisodes() {
@@ -67,36 +75,31 @@ public class Anime implements Serializable{
         this.updated = updated;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public int getId() {
         return id;
     }
 
-    public String getDateFinished()
-    {
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getDateFinished() {
         return dateFinished;
     }
 
-    public void setDateFinished(String date)
-    {
+    public void setDateFinished(String date) {
         dateFinished = date;
     }
 
-    public String getDateStarted()
-    {
+    public String getDateStarted() {
         return dateStarted;
     }
 
-    public void setDateStarted(String date)
-    {
+    public void setDateStarted(String date) {
         dateStarted = date;
     }
 
-    public void copy(Anime show)
-    {
+    public void copy(Anime show) {
         this.title = show.title;
         this.synonyms = show.synonyms;
         this.episodes = show.episodes;

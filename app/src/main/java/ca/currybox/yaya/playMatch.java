@@ -124,7 +124,7 @@ public class playMatch extends Fragment implements View.OnClickListener {
         String xml = parser.read("user.xml", super.getActivity());
         Document doc = parser.getDomElement(xml);
         List<Anime> animeList = new animeList().getList(doc); //reads the user xml file into memory
-        title = title.replaceAll("[^!~'A-z]", ""); //gets rid of whitespaces and special characters that are not !, ~, or '
+        title = title.replaceAll("[^!~'A-z0-9]", ""); //gets rid of whitespaces and special characters that are not !, ~, or '
         Log.i("Detected title", title);
 
         Button updateButton = (Button) view.findViewById(R.id.update_button);
@@ -133,7 +133,7 @@ public class playMatch extends Fragment implements View.OnClickListener {
         boolean found = false;
         for (int i = 0; i < animeList.size() && !found; i++) {
             String[] synonyms = animeList.get(i).getSynonyms().split(";");
-            String listTitle = animeList.get(i).getTitle().replaceAll("[^!~'A-z]", "");
+            String listTitle = animeList.get(i).getTitle().replaceAll("[^!~'A-z0-9]", "");
             if (title.equalsIgnoreCase(listTitle)) {
                 show = animeList.get(i);
                 TextView match = (TextView) view.findViewById(R.id.match_title);
@@ -152,7 +152,7 @@ public class playMatch extends Fragment implements View.OnClickListener {
                 found = true;
             } else {
                 for (String synonym : synonyms) {
-                    synonym = synonym.replaceAll("[^!~'A-z]", "");
+                    synonym = synonym.replaceAll("[^!~'A-z0-9]", "");
                     if (title.equalsIgnoreCase(synonym)) {
                         show = animeList.get(i);
                         TextView match = (TextView) view.findViewById(R.id.match_title);
@@ -180,7 +180,7 @@ public class playMatch extends Fragment implements View.OnClickListener {
             List<Anime> customTitles = customList.getCustomList(view.getContext());
             if (customTitles != null) {
                 for (int i = 0; i < customTitles.size(); i++) {
-                    String[] synonyms = customTitles.get(i).getCustom_synonyms().split(";");
+                    String[] synonyms = customTitles.get(i).getCustom_synonyms().replaceAll("[^!~;'A-z0-9]", "").split(";");
                     for (String synonym : synonyms) {
                         if (title.equalsIgnoreCase(synonym)) {
                             String tempTitle = customTitles.get(i).getTitle();

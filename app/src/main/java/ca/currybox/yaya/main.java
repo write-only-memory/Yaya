@@ -49,13 +49,10 @@ public class main extends ActionBarActivity {
             playMatch play = new playMatch();
             play.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().replace(R.id.body, play).commit();
-            Log.i("file to play", i.getDataString());
         } else {
             Log.i("mainview", "returning here");
             getSupportFragmentManager().beginTransaction().replace(R.id.body, new mainFragment()).commit();
         }
-        Log.i("INTENT", i.getAction());
-
 
 
     }
